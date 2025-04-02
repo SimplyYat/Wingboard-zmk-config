@@ -74,7 +74,7 @@
                                                                                &enter_tab
             >;
 
-            sensor-bindings = <&inc_dec_kp K_SCROLL_DOWN K_SCROLL_UP>;
+            sensor-bindings = <&inc_dec_kp DOWN UP_ARROW>;
             display-name = "Default";
         };
 
