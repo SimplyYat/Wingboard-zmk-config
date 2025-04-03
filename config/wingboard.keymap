@@ -1,6 +1,10 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/pointing.h>
+
+&msc {
+};
 
 / {
     sensors: sensors {
@@ -44,6 +48,13 @@
             #binding-cells = <0>;
             bindings = <&kp ENTER>, <&kp TAB>;
         };
+
+        scroll_encoder: scroll_encoder {
+            compatible = "zmk,behavior-sensor-rotate-var";
+            label = "SCROLL_ENCODER";
+            #sensor-binding-cells = <2>;
+            bindings = <&msc>, <&msc>;
+        };
     };
 
     keymap {
@@ -74,7 +85,7 @@
                                                                                &enter_tab
             >;
 
-            sensor-bindings = <&inc_dec_kp DOWN UP_ARROW>;
+            sensor-bindings = <&scroll_encoder SCRL_DOWN SCRL_UP>;
             display-name = "Default";
         };
 
