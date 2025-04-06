@@ -87,7 +87,7 @@
                                                                                &enter_tab
             >;
 
-            sensor-bindings = <&scroll_encoder SCRL_DOWN SCRL_UP>;
+            sensor-bindings = <&scroll_encoder MOVE_Y(-20) MOVE_Y(20)>;
             display-name = "Default";
         };
 
