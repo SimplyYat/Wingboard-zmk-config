@@ -62,6 +62,7 @@
             compatible = "zmk,behavior-sensor-rotate";
             label = "MOUSE_SCROLL";
             #sensor-binding-cells = <0>;
+            #binding-cells = <0>;
             bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
 
             tap-ms = <100>;
