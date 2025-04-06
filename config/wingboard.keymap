@@ -116,7 +116,7 @@
                                                           &trans
             >;
 
-            sensor-bindings = <&scroll_encoder MOVE_X(10) MOVE_X(-10)>;
+            sensor-bindings = <&scroll_encoder MOVE_X(100) MOVE_X(-100)>;
             display-name = "Fn";
         };
 
