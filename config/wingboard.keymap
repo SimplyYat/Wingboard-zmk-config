@@ -57,16 +57,6 @@
 
             tap-ms = <100>;
         };
-
-        mouse_scroll: mouse_scroll {
-            compatible = "zmk,behavior-sensor-rotate";
-            label = "MOUSE_SCROLL";
-            #sensor-binding-cells = <0>;
-            #binding-cells = <0>;
-            bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
-
-            tap-ms = <100>;
-        };
     };
 
     keymap {
@@ -154,7 +144,7 @@
                                                                       &trans
             >;
 
-            sensor-bindings = <&mouse_scroll>;
+            sensor-bindings = <&inc_dec_kp PAGE_DOWN PAGE_UP>;
             display-name = "Actions";
         };
 
