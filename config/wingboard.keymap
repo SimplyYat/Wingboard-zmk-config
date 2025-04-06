@@ -54,6 +54,17 @@
             label = "SCROLL_ENCODER";
             #sensor-binding-cells = <2>;
             bindings = <&msc>, <&msc>;
+
+            tap-ms = <100>;
+        };
+
+        mouse_scroll: mouse_scroll {
+            compatible = "zmk,behavior-sensor-rotate";
+            label = "MOUSE_SCROLL";
+            #sensor-binding-cells = <0>;
+            bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
+
+            tap-ms = <100>;
         };
     };
 
@@ -142,7 +153,7 @@
                                                                       &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp K_SCROLL_DOWN K_SCROLL_UP>;
+            sensor-bindings = <&mouse_scroll>;
             display-name = "Actions";
         };
 
