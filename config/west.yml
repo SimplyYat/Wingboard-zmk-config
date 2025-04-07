@@ -6,8 +6,10 @@ manifest:
     # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
     #- name: dsifry #new entry for custom nice!view UI
     #  url-base: https://github.com/dsifry
-    - name: MrBanh  #For Bongo Cat UI
-      url-base: https://github.com/MrBanh
+    #- name: MrBanh  #For Bongo Cat UI
+    #  url-base: https://github.com/MrBanh
+    - name: m165437 #For Nice!view Gem UI
+      url-base: https://github.com/M165437
   projects:
     - name: zmk
       remote: zmkfirmware
@@ -16,8 +18,11 @@ manifest:
     #- name: nice-view-mod #new entry for custom nice!view UI
     #  remote: dsifry
     #  revision: main
-    - name: nice-view-bongo-cat #For Bongo Cat UI
-      remote: MrBanh
+    # - name: nice-view-bongo-cat #For Bongo Cat UI
+    #   remote: MrBanh
+    #   revision: main
+    - name: nice-view-gem #For Nice!view Gem UI
+      remote: m165437
       revision: main
   self:
     path: config
