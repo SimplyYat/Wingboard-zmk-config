@@ -4,15 +4,20 @@ manifest:
       url-base: https://github.com/zmkfirmware
     # Additional modules containing boards/shields/custom code can be listed here as well
     # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
-    - name: dsifry #new entry for custom nice!view UI
-      url-base: https://github.com/dsifry
+    #- name: dsifry #new entry for custom nice!view UI
+    #  url-base: https://github.com/dsifry
+    - name: MrBanh  #For Bongo Cat UI
+      url-base: https://github.com/MrBanh
   projects:
     - name: zmk
       remote: zmkfirmware
       revision: main
       import: app/west.yml
-    - name: nice-view-mod #new entry for custom nice!view UI
-      remote: dsifry
+    #- name: nice-view-mod #new entry for custom nice!view UI
+    #  remote: dsifry
+    #  revision: main
+    - name: nice-view-bongo-cat #For Bongo Cat UI
+      remote: MrBanh
       revision: main
   self:
     path: config
