@@ -9,5 +9,7 @@ manifest:
       remote: zmkfirmware
       revision: main
       import: app/west.yml
+    - name: dsifry #new entry for bongo cat nice!view UI
+      url-base: https://github.com/dsifry
   self:
     path: config
