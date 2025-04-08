@@ -8,8 +8,8 @@ manifest:
     #  url-base: https://github.com/dsifry
     #- name: MrBanh  #For Bongo Cat UI
     #  url-base: https://github.com/MrBanh
-    - name: simplyyat #For Nice!view Gem UI
-      url-base: https://github.com/simplyyat
+    #- name: simplyyat #For Nice!view Gem UI
+    #  url-base: https://github.com/simplyyat
   projects:
     - name: zmk
       remote: zmkfirmware
@@ -21,8 +21,8 @@ manifest:
     # - name: nice-view-bongo-cat #For Bongo Cat UI
     #   remote: MrBanh
     #   revision: main
-    - name: nice-view-gem #For Nice!view Gem UI
-      remote: simplyyat
-      revision: main
+    #- name: nice-view-gem #For Nice!view Gem UI
+    #  remote: simplyyat
+    #  revision: main
   self:
     path: config
