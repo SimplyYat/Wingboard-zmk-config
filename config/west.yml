@@ -4,25 +4,20 @@ manifest:
       url-base: https://github.com/zmkfirmware
     # Additional modules containing boards/shields/custom code can be listed here as well
     # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
-    - name: gpeye #new entry for custom nice!view UI
-      url-base: https://github.com/gpeye
     #- name: MrBanh  #For Bongo Cat UI
     #  url-base: https://github.com/MrBanh
-    #- name: simplyyat #For Nice!view Gem UI
-    #  url-base: https://github.com/simplyyat
+    - name: simplyyat #For Nice!view Gem UI
+      url-base: https://github.com/simplyyat
   projects:
     - name: zmk
       remote: zmkfirmware
       revision: main
       import: app/west.yml
-    - name: urchin-peripheral-animation #new entry for custom nice!view UI
-      remote: gpeye
-      revision: main
     # - name: nice-view-bongo-cat #For Bongo Cat UI
     #   remote: MrBanh
     #   revision: main
-    #- name: nice-view-gem #For Nice!view Gem UI
-    #  remote: simplyyat
-    #  revision: main
+    - name: nice-view-gem #For Nice!view Gem UI
+      remote: simplyyat
+      revision: main
   self:
     path: config
