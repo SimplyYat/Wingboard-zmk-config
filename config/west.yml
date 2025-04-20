@@ -4,20 +4,15 @@ manifest:
       url-base: https://github.com/zmkfirmware
     # Additional modules containing boards/shields/custom code can be listed here as well
     # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
-    #- name: MrBanh  #For Bongo Cat UI
-    #  url-base: https://github.com/MrBanh
-    - name: simplyyat #For Nice!view Gem UI
-      url-base: https://github.com/simplyyat
+    - name: whoop-t #For Nice View UI
+      url-base: https://github.com/whoop-t #new entry
   projects:
     - name: zmk
       remote: zmkfirmware
       revision: main
       import: app/west.yml
-    # - name: nice-view-bongo-cat #For Bongo Cat UI
-    #   remote: MrBanh
-    #   revision: main
-    - name: nice-view-gem #For Nice!view Gem UI
-      remote: simplyyat
+    - name: nice-one-punch-ok #nice view punch ok UI
+      remote: whoop-t
       revision: main
   self:
     path: config
