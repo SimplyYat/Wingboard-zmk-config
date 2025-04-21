@@ -113,3 +113,27 @@ nice_view_spi: &spi0 {
     pinctrl-names = "default", "sleep";
     cs-gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>;
 };
+
+/ {
+    keys {
+        compatible = "gpio-keys";
+        wakeup_key: wakeup_key {
+            gpios = <&pro_micro 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;    // Row 3; The col values will be specified in the wakeup_source.extra-gpios array.
+        };
+    };
+
+    wakeup_source: wakeup_source {
+        compatible = "zmk,gpio-key-wakeup-trigger";
+
+        trigger = <&wakeup_key>;
+        wakeup-source;
+        extra-gpios
+            = <&pro_micro 19 GPIO_ACTIVE_HIGH>  // Col 3; The row values are specified in the wakeup_key.gpios array.
+            ;
+    };
+
+    soft_off_wakers {
+        compatible = "zmk,soft-off-wakeup-sources";
+        wakeup-sources = <&wakeup_source>;
+    };
+}
