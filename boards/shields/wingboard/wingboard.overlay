@@ -136,4 +136,4 @@ nice_view_spi: &spi0 {
         compatible = "zmk,soft-off-wakeup-sources";
         wakeup-sources = <&wakeup_source>;
     };
-}
+};
