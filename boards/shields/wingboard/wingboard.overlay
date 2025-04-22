@@ -23,6 +23,7 @@
         compatible = "zmk,kscan-composite";
         rows = <10>;
         columns = <6>;
+        wakeup-source;
 
         // Include the matrix driver
         matrix {
