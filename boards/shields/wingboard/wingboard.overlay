@@ -129,7 +129,8 @@ nice_view_spi: &spi0 {
         trigger = <&wakeup_key>;
         wakeup-source;
         extra-gpios
-            = <&pro_micro 19 GPIO_ACTIVE_HIGH>  // Col 3; The row values are specified in the wakeup_key.gpios array.
+            = <&pro_micro 19 GPIO_ACTIVE_HIGH>  // Col 3;
+            , <&pro_micro 2 GPIO_ACTIVE_HIGH>   // and Col 8; The row values are specified in the wakeup_key.gpio array.
             ;
     };
 
