@@ -72,18 +72,11 @@
             bindings = <&kp RIGHT_BRACKET>, <&kp RIGHT_BRACE>;
         };
 
-        hold_action_fn: hold_action_fn {
+        multi_layer_hold: multi_layer_hold {
             compatible = "zmk,behavior-tap-dance";
-            label = "HOLD_ACTION_FN";
+            label = "MULTI_LAYER_HOLD";
             #binding-cells = <0>;
-            bindings = <&mo 2>, <&mo 1>;
-        };
-
-        bluetooth_cycle: bluetooth_cycle {
-            compatible = "zmk,behavior-sensor-rotate";
-            label = "BLUETOOTH_CYCLE";
-            #sensor-binding-cells = <0>;
-            bindings = <&bt BT_NXT>, <&bt BT_PRV>;
+            bindings = <&mo 3>, <&mo 2>, <&mo 1>;
         };
     };
 
@@ -107,12 +100,12 @@
             //                                        '-------'
 
             bindings = <
-  &kp Q            &kp W                   &kp E           &kp R      &kp T                 &kp Y       &kp U       &kp I           &kp O                    &kp P
-  &lt 1 A          &kp S                   &kp D           &kp F      &kp G                 &kp H       &kp J       &kp K           &kp L                    &lt 2 SEMI
-  &kp LEFT_SHIFT   &mt LEFT_GUI Z          &mt LEFT_ALT X  &kp C      &kp V                 &kp B       &kp N       &kp M           &kp COMMA                &kp DOT
-  &hold_action_fn  &kp LCTRL               &kp LEFT_ALT    &mo 4      &esc                  &kp GRAVE   &mo 4       &kp RIGHT_ALT   &kp RCTRL                &kp RIGHT_SHIFT
-                   &mt LEFT_GUI LG(SPACE)  &copy_cut       &kp SPACE  &kp BACKSPACE         &kp DELETE  &enter_tab  &paste_special  &mt RIGHT_GUI RG(SPACE)
-                                                                                     &mo 1
+  &kp Q              &kp W                   &kp E           &kp R      &kp T                 &kp Y       &kp U       &kp I           &kp O                    &kp P
+  &lt 1 A            &kp S                   &kp D           &kp F      &kp G                 &kp H       &kp J       &kp K           &kp L                    &lt 2 SEMI
+  &kp LEFT_SHIFT     &mt LEFT_GUI Z          &mt LEFT_ALT X  &kp C      &kp V                 &kp B       &kp N       &kp M           &kp COMMA                &kp DOT
+  &multi_layer_hold  &kp LCTRL               &kp LEFT_ALT    &mo 4      &esc                  &kp GRAVE   &mo 4       &kp RIGHT_ALT   &kp RCTRL                &kp RIGHT_SHIFT
+                     &mt LEFT_GUI LG(SPACE)  &copy_cut       &kp SPACE  &kp BACKSPACE         &kp DELETE  &enter_tab  &paste_special  &mt RIGHT_GUI RG(SPACE)
+                                                                                       &mo 1
             >;
 
             sensor-bindings = <&scroll_encoder MOVE_Y(-100) MOVE_Y(100)>;
@@ -171,7 +164,7 @@
                                                  &studio_unlock
             >;
 
-            sensor-bindings = <&bluetooth_cycle>;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
             display-name = "Controls";
         };
 
