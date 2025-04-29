@@ -103,7 +103,7 @@
   &kp Q            &kp W                   &kp E           &kp R      &kp T                 &kp Y       &kp U       &kp I           &kp O                    &kp P
   &lt 1 A          &kp S                   &kp D           &kp F      &kp G                 &kp H       &kp J       &kp K           &kp L                    &lt 2 SEMI
   &kp LEFT_SHIFT   &mt LEFT_GUI Z          &mt LEFT_ALT X  &kp C      &kp V                 &kp B       &kp N       &kp M           &kp COMMA                &kp DOT
-  &hold_action_fn  &kp LCTRL               &kp LEFT_ALT    &mo 3      &esc                  &kp GRAVE   &mo 3       &kp RIGHT_ALT   &kp RCTRL                &kp RIGHT_SHIFT
+  &hold_action_fn  &kp LCTRL               &kp LEFT_ALT    &mo 4      &esc                  &kp GRAVE   &mo 4       &kp RIGHT_ALT   &kp RCTRL                &kp RIGHT_SHIFT
                    &mt LEFT_GUI LG(SPACE)  &copy_cut       &kp SPACE  &kp BACKSPACE         &kp DELETE  &enter_tab  &paste_special  &mt RIGHT_GUI RG(SPACE)
                                                                                      &mo 1
             >;
@@ -113,20 +113,6 @@
         };
 
         functions_layer {
-            // ,----------------------------------.               ,----------------------------------.
-            // |  F1  |  F2  |  F3  |  F4  |  F5  |               |  F6  |  F7  |  F8  |  F9  | F10  |
-            // |------+------+------+------+------|               |------+------+------+------+------|
-            // |  1   |  2   |  3   |  4   |  5   |               |  6   |  7   |  8   |  9   |  0   |
-            // |------+------+------+------+------|               |------+------+------+------+------|
-            // |  !   |  @   |  #   |  $   |  %   |               |  ^   |  &   |  *   |  (   |  )   |
-            // |------+------+------+------+------.               |------+------+------+------+------|
-            // |  =   |  -   |  +   |  {   |  }   |               |  [   |  ]   |  ;   |  :   |  \   |
-            // `------+------+------+------+------+------. .------+------+------+------+------+------'
-            //               |      |      |      |      | |      | Raise|      | Studio |
-            //               |      |      |      |      | |      |      |      | Unlock |
-            //               `------------------------+--' '--+--------------------------'
-            //                                        |       |                               
-            //                                        '-------'
 
             bindings = <
   &kp F1     &kp F9                &kp F10                &kp F11      &kp F12              &kp ASTERISK  &kp N7   &kp N8     &kp N9          &kp PLUS
@@ -142,19 +128,6 @@
         };
 
         actions_layer {
-            // ,-----------------------------------------.               ,-----------------------------------------.
-            // |BT CLR| BT1  | BT2  | BT3  | BT4  | BT5  |               |      |      |      |      |      |      |
-            // |------+------+------+------+------+------|               |------+------+------+------+------+------|
-            // |      | INS  | PSCRN| MENU |      | Scll |               | PG UP|      |  Up  |      |      | Del  |
-            // |------+------+------+------+------+------|               |------+------+------+------+------+------|
-            // |      |      |      |      |      | Caps |               | PG DN| Left | Down | Right|      |      |
-            // |------+------+------+------+------+------+------. .------+------+------+------+------+------+------|
-            // |      |      |      |      |      |      |      | |      |      | LStr |      | LEnd |      |      |
-            // `-------------+------+------+------+------|      | |      |------+------+------+------+------+------'
-            //               |      |      |      | Lower|      | |      |      |      |      |      |
-            //               `-------------------------------+--' '--+-------------------------------'
-            //                                               |       |                               
-            //                                               '-------'
 
             bindings = <
   &bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3                &bt BT_SEL 4  &kp HOME  &kp UP_ARROW  &kp END    &kp DEL
@@ -169,20 +142,21 @@
             display-name = "Actions";
         };
 
+        symbols_layer {
+
+            bindings = <
+  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans
+  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans
+  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans
+  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans
+          &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans
+                                               &trans           >;
+
+            sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOLUME_DOWN>;
+            display-name = "Symbols";
+        };
+
         controls_layer {
-            // ,----------------------------------.               ,----------------------------------.
-            // |      |      |      |      |      |               |      |      |      |      |      |
-            // |------+------+------+------+------|               |------+------+------+------+------|
-            // | RESET|      |      |      |      |               |      |      |      |      |      |
-            // |------+------+------+------+------|               |------+------+------+------+------|
-            // |      |      |      |      |      |               |      | VolDn| Mute | VolUp|      |
-            // |------+------+------+------+------.               |------+------+------+------+------|
-            // | MacSw|      |      |      |      |               |      | Prev | Play | Next | WinSw|
-            // `-------------+------+------+------+------| |------+------+------+------+------+------'
-            //               |      |      |      |      | |      |      |      |      |
-            //               `------------------------+--' '--+------------------------'
-            //                                        |       |                               
-            //                                        '-------'
 
             bindings = <
   &soft_off  &trans  &trans  &trans  &sys_reset                  &bootloader     &trans        &trans      &trans        &soft_off
