@@ -2,17 +2,15 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    # Additional modules containing boards/shields/custom code can be listed here as well
-    # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
-    - name: arawasu #Nice View Oled remote with Luna
-      url-base: https://github.com/arawasu
+    - name: m165437
+      url-base: https://github.com/M165437
   projects:
     - name: zmk
       remote: zmkfirmware
-      revision: v0.3.0
+      revision: main
       import: app/west.yml
-    - name: zmk-nice-oled
-      remote: arawasu
+    - name: nice-view-gem
+      remote: m165437
       revision: main
   self:
     path: config
