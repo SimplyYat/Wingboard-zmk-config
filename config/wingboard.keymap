@@ -13,6 +13,20 @@
         triggers-per-rotation = <20>;
     };
 
+    macros {
+        macro_app_switch: macro_app_switch {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <0>;
+            bindings
+                = <&macro_press &mo 2 &kp LCMD>
+                , <&macro_pause_for_release>
+                , <&macro_release &mo 2 &kp LCMD>
+                ;
+        };
+    };
+
     behaviors {
         esc: esc {
             compatible = "zmk,behavior-tap-dance";
@@ -78,15 +92,6 @@
             #binding-cells = <0>;
             bindings = <&mo 3>, <&mo 4>;
         };
-
-        app_switcher: app_switcher {
-            compatible = "zmk,behavior-sensor-rotate-var";
-            label = "APP_SWITCHER";
-            #sensor-binding-cells = <2>;
-            bindings = <&kp>, <&kp>;
-
-            tap-ms = <30>;
-        };
     };
 
     keymap {
@@ -114,7 +119,7 @@
   &kp LEFT_SHIFT               &mt LEFT_GUI Z          &mt LEFT_ALT X  &kp C      &kp V                 &kp B       &kp N       &kp M           &kp COMMA                &kp DOT
   &th_layers_symbols_controls  &kp LCTRL               &kp LEFT_ALT    &mo 4      &esc                  &kp GRAVE   &mo 4       &kp RIGHT_ALT   &kp RCTRL                &kp RIGHT_SHIFT
                                &mt LEFT_GUI LG(SPACE)  &copy_cut       &kp SPACE  &kp BACKSPACE         &kp DELETE  &enter_tab  &paste_special  &mt RIGHT_GUI RG(SPACE)
-                                                                                                 &mo 1
+                                                                                                 &macro_app_switch
             >;
 
             sensor-bindings = <&scroll_encoder MOVE_Y(-100) MOVE_Y(100)>;
@@ -145,7 +150,7 @@
                                                                             &trans
             >;
 
-            sensor-bindings = <&app_switcher LG(TAB) LS(LG(TAB))>;
+            sensor-bindings = <&inc_dec_kp TAB LS(TAB)>;
             display-name = "Actions";
         };
 
