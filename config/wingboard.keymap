@@ -105,6 +105,13 @@
             #binding-cells = <0>;
             bindings = <&lt 4 TAB>, <&lt 2 LG(GRAVE)>;
         };
+
+        backtick_app_switch: backtick_app_switch {
+            compatible = "zmk,behavior-tap-dance";
+            label = "BACKTICK_APP_SWITCH";
+            #binding-cells = <0>;
+            bindings = <&kp GRAVE>, <&kp LG(GRAVE)>, <&kp LG(TAB)>;
+        };
     };
 
     keymap {
@@ -127,11 +134,11 @@
             //                                        '-------'
 
             bindings = <
-  &kp SQT                      &kp COMMA               &kp PERIOD          &kp P                           &kp Y                                  &kp F           &kp G       &kp C          &kp R                    &kp L
-  &lt 1 A                      &kp O                   &kp E               &kp U                           &kp I                                  &kp D           &kp H       &kp T          &kp N                    &lt 2 S
-  &kp LEFT_SHIFT               &mt LEFT_GUI Q          &mt LEFT_ALT J      &kp K                           &kp X                                  &kp B           &kp M       &kp W          &kp V                    &kp Z
-  &th_layers_symbols_controls  &kp LCTRL               &mt LEFT_ALT LG(W)  &tab_l4_switch_app_instance_l2  &esc_printscreen                       &kp GRAVE       &mo 4       &kp RIGHT_ALT  &kp RCTRL                &kp RIGHT_SHIFT
-                               &mt LEFT_GUI LG(SPACE)  &kp SPACE           &kp BSPC                        &copy_cut                              &paste_special  &kp DELETE  &enter_tab     &mt RIGHT_GUI RG(SPACE)
+  &kp SQT                      &kp COMMA               &kp PERIOD          &kp P                           &kp Y                                  &kp F                 &kp G       &kp C          &kp R                    &kp L
+  &lt 1 A                      &kp O                   &kp E               &kp U                           &kp I                                  &kp D                 &kp H       &kp T          &kp N                    &lt 2 S
+  &kp LEFT_SHIFT               &mt LEFT_GUI Q          &mt LEFT_ALT J      &kp K                           &kp X                                  &kp B                 &kp M       &kp W          &kp V                    &kp Z
+  &th_layers_symbols_controls  &kp LCTRL               &mt LEFT_ALT LG(W)  &tab_l4_switch_app_instance_l2  &esc_printscreen                       &backtick_app_switch  &mo 4       &kp RIGHT_ALT  &kp RCTRL                &kp RIGHT_SHIFT
+                               &mt LEFT_GUI LG(SPACE)  &kp SPACE           &kp BSPC                        &copy_cut                              &paste_special        &kp DELETE  &enter_tab     &mt RIGHT_GUI RG(SPACE)
                                                                                                                              &macro_app_switch 2
             >;
 
