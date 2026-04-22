@@ -117,7 +117,7 @@
             compatible = "zmk,behavior-tap-dance";
             label = "GUI_GSPC_MACLOCK";
             #binding-cells = <0>;
-            bindings = <&mt LEFT_GUI LG(SPACE)>, <&mt LG(LS(Q)) LEFT_GUI>;
+            bindings = <&mt LEFT_GUI LG(SPACE)>, <&mt LC(LG(Q)) LEFT_GUI>;
         };
 
         quote_esc_prnt: quote_esc_prnt {
