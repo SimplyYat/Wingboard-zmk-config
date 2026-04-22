@@ -198,7 +198,7 @@
                                                                                &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOLUME_DOWN>;
+            sensor-bindings = <&inc_dec_kp K_REDO K_UNDO>;
             display-name = "Symbols";
         };
 
