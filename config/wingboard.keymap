@@ -66,42 +66,42 @@
             bindings = <&mo>, <&kp>;
         };
 
-        appinst_switch_app_switch: appinst_switch_app_switch {
+        asw: appinst_switch_app_switch {
             compatible = "zmk,behavior-tap-dance";
             label = "APPINST_SWITCH_APP_SWITCH";
             #binding-cells = <0>;
             bindings = <&mt LEFT_GUI LG(GRAVE)>, <&kp LG(TAB)>;
         };
 
-        copy_cut: copy_cut {
+        cc: copy_cut {
             compatible = "zmk,behavior-tap-dance";
             label = "COPY_CUT";
             #binding-cells = <0>;
             bindings = <&kp LG(C)>, <&kp LG(X)>;
         };
 
-        paste_special: paste_special {
+        pst: paste_special {
             compatible = "zmk,behavior-tap-dance";
             label = "PASTE_SPECIAL";
             #binding-cells = <0>;
             bindings = <&kp LG(V)>, <&kp LS(LC(V))>;
         };
 
-        shift_caps_semi: shift_caps_semi {
+        shft: shift_caps_semi {
             compatible = "zmk,behavior-tap-dance";
             label = "SHIFT_CAPS_SEMI";
             #binding-cells = <0>;
             bindings = <&kp LEFT_SHIFT>, <&mt CAPSLOCK SEMI>;
         };
 
-        enter_tab: enter_tab {
+        entab: enter_tab {
             compatible = "zmk,behavior-tap-dance";
             label = "ENTER_TAB";
             #binding-cells = <0>;
             bindings = <&kp ENTER>, <&kp TAB>;
         };
 
-        scroll_encoder: scroll_encoder {
+        screnc: scroll_encoder {
             compatible = "zmk,behavior-sensor-rotate-var";
             label = "SCROLL_ENCODER";
             #sensor-binding-cells = <2>;
@@ -110,25 +110,25 @@
             tap-ms = <30>;
         };
 
-        l_sq_brace: l_sq_brace {
+        l_sq_br: l_sqbkt_brace {
             compatible = "zmk,behavior-tap-dance";
-            label = "L_SQ_BRACE";
+            label = "L_SQBKT_BRACE";
             #binding-cells = <0>;
             bindings = <&kp LEFT_BRACKET>, <&kp LEFT_BRACE>;
         };
 
-        r_sq_brace: r_sq_brace {
+        r_sq_br: r_sqbkt_brace {
             compatible = "zmk,behavior-tap-dance";
-            label = "R_SQ_BRACE";
+            label = "R_SQBKT_BRACE";
             #binding-cells = <0>;
             bindings = <&kp RIGHT_BRACKET>, <&kp RIGHT_BRACE>;
         };
 
-        th_layers_symbols_controls: th_layers_symbols_controls {
+        td_l3_l4: td_l3_semi_l4_col {
             compatible = "zmk,behavior-tap-dance";
-            label = "TH_LAYERS_SYMBOLS_CONTROLS";
+            label = "TD_L3_SEMI_L4_COL";
             #binding-cells = <0>;
-            bindings = <&mo 3>, <&mo 4>;
+            bindings = <&lt 3 SEMI>, <&lt 4 COLON>;
         };
 
         tab_l4_selall_l2: tab_l4_selall_l2 {
@@ -138,9 +138,9 @@
             bindings = <&lt 4 TAB>, <&lt 2 LG(A)>;
         };
 
-        backtick_app_switch: backtick_app_switch {
+        tick_asw_tab: backtick_app_switch_tab {
             compatible = "zmk,behavior-tap-dance";
-            label = "BACKTICK_APP_SWITCH";
+            label = "BACKTICK_APP_SWITCH_TAB";
             #binding-cells = <0>;
             bindings = <&kp GRAVE>, <&kp LG(GRAVE)>, <&kp LG(TAB)>;
         };
@@ -194,29 +194,29 @@
             //                                        '-------'
 
             bindings = <
-  &quote_esc_prnt              &kp COMMA                        &kp PERIOD         &kp P              &kp Y                                            &kp F                 &kp G                        &kp C          &r_refresh         &kp L
-  &hlt 1 A                     &hm LEFT_ALT O                   &hm LEFT_GUI E     &hm LEFT_SHIFT U   &kp I                                            &kp D                 &hm RIGHT_SHIFT H            &hm RIGHT_GUI T &hm RIGHT_ALT N    &hlt 2 S
-  &shift_caps_semi             &mt LEFT_GUI Q                   &mt LEFT_ALT J     &kp K              &kp X                                            &kp B                 &kp M                        &kp W          &kp V              &kp Z
-  &th_layers_symbols_controls  &mt LCTRL LC(LA(LS(LG(SPACE))))  &opt_close_window  &tab_l4_selall_l2  &appinst_switch_app_switch                       &backtick_app_switch  &th_layers_symbols_controls  &kp RIGHT_ALT  &kp RCTRL          &shift_caps_semi
-                               &mt LEFT_GUI LG(SPACE)           &kp SPACE          &kp BSPC           &copy_cut                                        &paste_special        &kp DELETE                   &enter_tab     &gui_gspc_maclock
-                                                                                                                                  &macro_app_switch 2
+  &quote_esc_prnt  &kp COMMA                        &kp PERIOD         &kp P              &kp Y                       &kp F          &kp G              &kp C            &r_refresh         &kp L
+  &hlt 1 A         &hm LEFT_ALT O                   &hm LEFT_GUI E     &hm LEFT_SHIFT U   &kp I                       &kp D          &hm RIGHT_SHIFT H  &hm RIGHT_GUI T  &hm RIGHT_ALT N    &hlt 2 S
+  &shft            &mt LEFT_GUI Q                   &mt LEFT_ALT J     &kp K              &kp X                       &kp B          &kp M              &kp W            &kp V              &kp Z
+  &td_l3_l4        &mt LCTRL LC(LA(LS(LG(SPACE))))  &opt_close_window  &tab_l4_selall_l2  &asw                        &tick_asw_tab  &td_l3_l4          &kp RIGHT_ALT    &kp RCTRL          &shft
+                   &mt LEFT_GUI LG(SPACE)           &kp SPACE          &kp BSPC           &cc                         &pst           &kp DELETE         &entab           &gui_gspc_maclock
+                                                                                                 &macro_app_switch 2
             >;
 
-            sensor-bindings = <&scroll_encoder MOVE_Y(-100) MOVE_Y(100)>;
+            sensor-bindings = <&screnc MOVE_Y(-100) MOVE_Y(100)>;
             display-name = "Default";
         };
 
         functions_layer {
             bindings = <
-  &trans     &kp F9                &kp F10                &kp F11      &kp F12              &kp ASTERISK  &kp N7   &kp N8     &kp N9          &kp PLUS
-  &trans     &kp F5                &kp F6                 &kp F7       &kp F8               &kp SLASH     &kp N4   &kp N5     &kp N6          &kp MINUS
-  &kp SEMI   &kp F1                &kp F2                 &kp F3       &kp F4               &kp CARET     &kp N1   &kp N2     &kp N3          &kp COLON
-  &kp EQUAL  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &l_sq_brace  &r_sq_brace          &kp COMMA     &kp DOT  &kp N0     &kp BACKSLASH   &kp SEMICOLON
-             &trans                &trans                 &trans       &trans               &trans        &trans   &kp EQUAL  &studio_unlock
-                                                                                    &trans
+  &trans     &kp F9                &kp F10                &kp F11   &kp F12           &kp ASTERISK  &kp N7   &kp N8     &kp N9          &kp PLUS
+  &trans     &kp F5                &kp F6                 &kp F7    &kp F8            &kp SLASH     &kp N4   &kp N5     &kp N6          &kp MINUS
+  &kp SEMI   &kp F1                &kp F2                 &kp F3    &kp F4            &kp CARET     &kp N1   &kp N2     &kp N3          &kp COLON
+  &kp EQUAL  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &l_sq_br  &r_sq_br          &kp COMMA     &kp DOT  &kp N0     &kp BACKSLASH   &kp SEMICOLON
+             &trans                &trans                 &trans    &trans            &trans        &trans   &kp EQUAL  &studio_unlock
+                                                                              &trans
             >;
 
-            sensor-bindings = <&scroll_encoder MOVE_X(100) MOVE_X(-100)>;
+            sensor-bindings = <&screnc MOVE_X(100) MOVE_X(-100)>;
             display-name = "Fn";
         };
 
