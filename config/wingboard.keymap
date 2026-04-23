@@ -133,6 +133,13 @@
             #binding-cells = <0>;
             bindings = <&kp R>, <&kp LG(R)>;
         };
+
+        opt_close_window: opt_close_window {
+            compatible = "zmk,behavior-tap-dance";
+            label = "OPT_CLOSE_WINDOW";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_ALT>, <&kp LG(W)>;
+        };
     };
 
     keymap {
@@ -155,12 +162,12 @@
             //                                        '-------'
 
             bindings = <
-  &quote_esc_prnt              &kp COMMA                        &kp PERIOD          &kp P              &kp Y                                            &kp F                 &kp G                        &kp C          &r_refresh         &kp L
-  &lt 1 A                      &kp O                            &kp E               &kp U              &kp I                                            &kp D                 &kp H                        &kp T          &kp N              &lt 2 S
-  &shift_caps_semi             &mt LEFT_GUI Q                   &mt LEFT_ALT J      &kp K              &kp X                                            &kp B                 &kp M                        &kp W          &kp V              &kp Z
-  &th_layers_symbols_controls  &mt LCTRL LC(LA(LS(LG(SPACE))))  &mt LEFT_ALT LG(W)  &tab_l4_selall_l2  &appinst_switch_app_switch                       &backtick_app_switch  &th_layers_symbols_controls  &kp RIGHT_ALT  &kp RCTRL          &shift_caps_semi
-                               &mt LEFT_GUI LG(SPACE)           &kp SPACE           &kp BSPC           &copy_cut                                        &paste_special        &kp DELETE                   &enter_tab     &gui_gspc_maclock
-                                                                                                                                   &macro_app_switch 2
+  &quote_esc_prnt              &kp COMMA                        &kp PERIOD         &kp P              &kp Y                                            &kp F                 &kp G                        &kp C          &r_refresh         &kp L
+  &lt 1 A                      &kp O                            &kp E              &kp U              &kp I                                            &kp D                 &kp H                        &kp T          &kp N              &lt 2 S
+  &shift_caps_semi             &mt LEFT_GUI Q                   &mt LEFT_ALT J     &kp K              &kp X                                            &kp B                 &kp M                        &kp W          &kp V              &kp Z
+  &th_layers_symbols_controls  &mt LCTRL LC(LA(LS(LG(SPACE))))  &opt_close_window  &tab_l4_selall_l2  &appinst_switch_app_switch                       &backtick_app_switch  &th_layers_symbols_controls  &kp RIGHT_ALT  &kp RCTRL          &shift_caps_semi
+                               &mt LEFT_GUI LG(SPACE)           &kp SPACE          &kp BSPC           &copy_cut                                        &paste_special        &kp DELETE                   &enter_tab     &gui_gspc_maclock
+                                                                                                                                  &macro_app_switch 2
             >;
 
             sensor-bindings = <&scroll_encoder MOVE_Y(-100) MOVE_Y(100)>;
