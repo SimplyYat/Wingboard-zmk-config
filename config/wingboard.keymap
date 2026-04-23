@@ -171,8 +171,8 @@
             bindings = <
   &trans     &kp F9                &kp F10                &kp F11      &kp F12              &kp ASTERISK  &kp N7   &kp N8     &kp N9          &kp PLUS
   &trans     &kp F5                &kp F6                 &kp F7       &kp F8               &kp SLASH     &kp N4   &kp N5     &kp N6          &kp MINUS
-  &kp SEMI   &kp F1                &kp F2                 &kp F3       &kp F4               &kp CARET     &kp N1   &kp N2     &kp N3          &kp EQUAL
-  &kp EQUAL  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &l_sq_brace  &r_sq_brace          &kp COMMA     &kp DOT  &kp N0     &kp COLON       &kp BSLH
+  &kp SEMI   &kp F1                &kp F2                 &kp F3       &kp F4               &kp CARET     &kp N1   &kp N2     &kp N3          &kp COLON
+  &kp EQUAL  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &l_sq_brace  &r_sq_brace          &kp COMMA     &kp DOT  &kp N0     &kp BACKSLASH   &kp SEMICOLON
              &trans                &trans                 &trans       &trans               &trans        &trans   &kp EQUAL  &studio_unlock
                                                                                     &trans
             >;
@@ -200,7 +200,7 @@
   &kp EXCLAMATION  &kp AT_SIGN  &kp HASH      &kp DOLLAR      &kp PERCENT              &kp CARET      &kp AMPERSAND     &kp ASTERISK          &kp PLUS               &kp EQUAL
   &kp GRAVE        &kp UNDER    &kp QUESTION  &kp LEFT_BRACE  &kp RIGHT_BRACE          &kp SLASH      &kp BACKSLASH     &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp MINUS
   &trans           &trans       &trans        &kp COLON       &kp TILDE                &kp LESS_THAN  &kp GREATER_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp QUESTION
-  &trans           &trans       &trans        &trans          &trans                   &trans         &trans            &trans                &trans                 &trans
+  &trans           &trans       &trans        &trans          &trans                   &trans         &trans            &trans                &trans                 &kp SEMICOLON
                    &trans       &trans        &trans          &trans                   &trans         &trans            &trans                &trans
                                                                                &trans
             >;
