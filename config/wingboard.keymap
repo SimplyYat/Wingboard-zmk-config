@@ -7,6 +7,16 @@
 };
 
 / {
+    combos {
+        compatible = "zmk,combos";
+
+        combo_caps_word {
+            timeout-ms = <50>;
+            key-positions = <13 16>; // U and H
+            bindings = <&caps_word>;
+        };
+    };
+
     sensors: sensors {
         compatible = "zmk,keymap-sensors";
         sensors = <&center_encoder>;
@@ -34,6 +44,28 @@
     };
 
     behaviors {
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&kp>;
+        };
+
+        hlt: homerow_layer_tap {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_LAYER_TAP";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            bindings = <&mo>, <&kp>;
+        };
+
         appinst_switch_app_switch: appinst_switch_app_switch {
             compatible = "zmk,behavior-tap-dance";
             label = "APPINST_SWITCH_APP_SWITCH";
@@ -163,7 +195,7 @@
 
             bindings = <
   &quote_esc_prnt              &kp COMMA                        &kp PERIOD         &kp P              &kp Y                                            &kp F                 &kp G                        &kp C          &r_refresh         &kp L
-  &lt 1 A                      &kp O                            &kp E              &kp U              &kp I                                            &kp D                 &kp H                        &kp T          &kp N              &lt 2 S
+  &hlt 1 A                     &hm LEFT_ALT O                   &hm LEFT_GUI E     &hm LEFT_SHIFT U   &kp I                                            &kp D                 &hm RIGHT_SHIFT H            &hm RIGHT_GUI T &hm RIGHT_ALT N    &hlt 2 S
   &shift_caps_semi             &mt LEFT_GUI Q                   &mt LEFT_ALT J     &kp K              &kp X                                            &kp B                 &kp M                        &kp W          &kp V              &kp Z
   &th_layers_symbols_controls  &mt LCTRL LC(LA(LS(LG(SPACE))))  &opt_close_window  &tab_l4_selall_l2  &appinst_switch_app_switch                       &backtick_app_switch  &th_layers_symbols_controls  &kp RIGHT_ALT  &kp RCTRL          &shift_caps_semi
                                &mt LEFT_GUI LG(SPACE)           &kp SPACE          &kp BSPC           &copy_cut                                        &paste_special        &kp DELETE                   &enter_tab     &gui_gspc_maclock
