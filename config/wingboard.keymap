@@ -15,6 +15,16 @@
             key-positions = <13 16>; // U and H
             bindings = <&caps_word>;
         };
+
+        combo_enter {
+            bindings = <&kp ENTER>;
+            key-positions = <15 16>;
+        };
+
+        combo_esc {
+            bindings = <&kp ESCAPE>;
+            key-positions = <11 12>;
+        };
     };
 
     sensors: sensors {
