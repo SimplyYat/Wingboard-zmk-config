@@ -18,12 +18,27 @@
 
         combo_enter {
             bindings = <&kp ENTER>;
-            key-positions = <15 16>;
+            key-positions = <16 17>;
         };
 
         combo_esc {
             bindings = <&kp ESCAPE>;
-            key-positions = <11 12>;
+            key-positions = <11 10>;
+        };
+
+        combo_prntscr {
+            bindings = <&kp LG(LS(N5))>;
+            key-positions = <3 2>;
+        };
+
+        combo_appswitch {
+            bindings = <&kp LG(TAB)>;
+            key-positions = <6 7>;
+        };
+
+        combo_appinstsw {
+            bindings = <&kp LG(GRAVE)>;
+            key-positions = <8 9>;
         };
     };
 
@@ -162,11 +177,11 @@
             bindings = <&mt LEFT_GUI LG(SPACE)>, <&mt LC(LG(Q)) LEFT_GUI>;
         };
 
-        quote_esc_prnt: quote_esc_prnt {
+        quote_esc: quote_esc {
             compatible = "zmk,behavior-tap-dance";
-            label = "QUOTE_ESC_PRNT";
+            label = "QUOTE_ESC";
             #binding-cells = <0>;
-            bindings = <&kp SQT>, <&kp ESC>, <&kp LG(LS(N5))>;
+            bindings = <&kp SQT>, <&kp ESC>;
         };
 
         r_refresh: r_refresh {
@@ -204,12 +219,12 @@
             //                                        '-------'
 
             bindings = <
-  &quote_esc_prnt  &kp COMMA                        &kp PERIOD         &kp P              &kp Y                       &kp F          &kp G              &kp C            &r_refresh         &kp L
-  &hlt 1 A         &hm LEFT_ALT O                   &hm LEFT_GUI E     &hm LEFT_SHIFT U   &kp I                       &kp D          &hm RIGHT_SHIFT H  &hm RIGHT_GUI T  &hm RIGHT_ALT N    &hlt 2 S
-  &shft            &mt LEFT_GUI Q                   &mt LEFT_ALT J     &kp K              &kp X                       &kp B          &kp M              &kp W            &kp V              &kp Z
-  &td_l3_l4        &mt LCTRL LC(LA(LS(LG(SPACE))))  &opt_close_window  &tab_l4_selall_l2  &asw                        &tick_asw_tab  &td_l3_l4          &kp RIGHT_ALT    &kp RCTRL          &shft
-                   &mt LEFT_GUI LG(SPACE)           &kp SPACE          &kp BSPC           &cc                         &pst           &kp DELETE         &entab           &gui_gspc_maclock
-                                                                                                 &macro_app_switch 2
+  &quote_esc  &kp COMMA                        &kp PERIOD         &kp P              &kp Y                       &kp F          &kp G              &kp C            &r_refresh         &kp L
+  &hlt 1 A    &hm LEFT_ALT O                   &hm LEFT_GUI E     &hm LEFT_SHIFT U   &kp I                       &kp D          &hm RIGHT_SHIFT H  &hm RIGHT_GUI T  &hm RIGHT_ALT N    &hlt 2 S
+  &shft       &mt LEFT_GUI Q                   &mt LEFT_ALT J     &kp K              &kp X                       &kp B          &kp M              &kp W            &kp V              &kp Z
+  &td_l3_l4   &mt LCTRL LC(LA(LS(LG(SPACE))))  &opt_close_window  &tab_l4_selall_l2  &asw                        &tick_asw_tab  &td_l3_l4          &kp RIGHT_ALT    &kp RCTRL          &shft
+              &mt LEFT_GUI LG(SPACE)           &kp SPACE          &kp BSPC           &cc                         &pst           &kp DELETE         &entab           &gui_gspc_maclock
+                                                                                            &macro_app_switch 2
             >;
 
             sensor-bindings = <&screnc MOVE_Y(-100) MOVE_Y(100)>;
