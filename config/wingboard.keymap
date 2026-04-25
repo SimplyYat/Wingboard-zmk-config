@@ -45,6 +45,11 @@
             bindings = <&kp TAB>;
             key-positions = <12 13>;
         };
+
+        combo_refresh {
+            bindings = <&kp LG(R)>;
+            key-positions = <8 7>;
+        };
     };
 
     sensors: sensors {
@@ -189,13 +194,6 @@
             bindings = <&kp SQT>, <&kp ESC>;
         };
 
-        r_refresh: r_refresh {
-            compatible = "zmk,behavior-tap-dance";
-            label = "R_REFRESH";
-            #binding-cells = <0>;
-            bindings = <&kp R>, <&kp LG(R)>;
-        };
-
         opt_close_window: opt_close_window {
             compatible = "zmk,behavior-tap-dance";
             label = "OPT_CLOSE_WINDOW";
@@ -224,7 +222,7 @@
             //                                        '-------'
 
             bindings = <
-  &quote_esc  &kp COMMA                        &kp PERIOD         &kp P              &kp Y                       &kp F          &kp G              &kp C            &r_refresh         &kp L
+  &quote_esc  &kp COMMA                        &kp PERIOD         &kp P              &kp Y                       &kp F          &kp G              &kp C            &kp R              &kp L
   &hlt 1 A    &hm LEFT_ALT O                   &hm LEFT_GUI E     &hm LEFT_SHIFT U   &kp I                       &kp D          &hm RIGHT_SHIFT H  &hm RIGHT_GUI T  &hm RIGHT_ALT N    &hlt 2 S
   &shft       &mt LEFT_GUI Q                   &mt LEFT_ALT J     &kp K              &kp X                       &kp B          &kp M              &kp W            &kp V              &kp Z
   &td_l3_l4   &mt LCTRL LC(LA(LS(LG(SPACE))))  &opt_close_window  &tab_l4_selall_l2  &asw                        &tick_asw_tab  &td_l3_l4          &kp RIGHT_ALT    &kp RCTRL          &shft
@@ -280,7 +278,7 @@
 
         controls_layer {
             bindings = <
-  &soft_off  &trans  &trans  &trans  &sys_reset                  &bootloader     &trans             &trans            &trans           &soft_off
+  &soft_off  &trans  &trans  &trans  &sys_reset                  &bootloader     &trans             &trans            &kp LG(R)        &soft_off
   &trans     &trans  &trans  &trans  &trans                      &trans          &kp C_VOLUME_DOWN  &kp K_MUTE        &kp C_VOLUME_UP  &trans
   &trans     &trans  &trans  &trans  &trans                      &trans          &kp K_PREV         &kp K_PLAY_PAUSE  &kp K_NEXT       &trans
   &trans     &trans  &trans  &trans  &trans                      &trans          &trans             &trans            &trans           &trans
