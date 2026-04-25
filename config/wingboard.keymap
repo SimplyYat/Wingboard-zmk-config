@@ -40,6 +40,11 @@
             bindings = <&kp LG(GRAVE)>;
             key-positions = <8 9>;
         };
+
+        combo_tab {
+            bindings = <&kp TAB>;
+            key-positions = <12 13>;
+        };
     };
 
     sensors: sensors {
