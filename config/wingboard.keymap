@@ -55,6 +55,11 @@
             bindings = <&kp LG(W)>;
             key-positions = <0 1>;
         };
+
+        combo_copyspecial {
+            bindings = <&kp LS(LG(C))>;
+            key-positions = <43 42>;
+        };
     };
 
     sensors: sensors {
