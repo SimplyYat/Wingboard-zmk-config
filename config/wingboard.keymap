@@ -60,6 +60,26 @@
             bindings = <&kp LS(LG(C))>;
             key-positions = <43 42>;
         };
+
+        combo_semi {
+            bindings = <&kp SEMI>;
+            key-positions = <21 20>;
+        };
+
+        combo_question {
+            bindings = <&kp QUESTION>;
+            key-positions = <23 22>;
+        };
+
+        combo_colon {
+            bindings = <&kp COLON>;
+            key-positions = <22 21>;
+        };
+
+        combo_underscore {
+            bindings = <&kp UNDER>;
+            key-positions = <26 27>;
+        };
     };
 
     sensors: sensors {
@@ -234,7 +254,7 @@
             bindings = <
   &quote_esc  &kp COMMA                        &kp PERIOD         &kp P              &kp Y                       &kp F          &kp G              &kp C            &kp R              &kp L
   &hlt 1 A    &hm LEFT_ALT O                   &hm LEFT_GUI E     &hm LEFT_SHIFT U   &kp I                       &kp D          &hm RIGHT_SHIFT H  &hm RIGHT_GUI T  &hm RIGHT_ALT N    &hlt 2 S
-  &shft       &mt LEFT_GUI Q                   &mt LEFT_ALT J     &kp K              &kp X                       &kp B          &kp M              &kp W            &kp V              &kp Z
+  &shft       &kp Q                            &kp J              &kp K              &kp X                       &kp B          &kp M              &kp W            &kp V              &kp Z
   &td_l3_l4   &mt LCTRL LC(LA(LS(LG(SPACE))))  &opt_close_window  &tab_l4_selall_l2  &asw                        &tick_asw_tab  &td_l3_l4          &kp RIGHT_ALT    &kp RCTRL          &shft
               &mt LEFT_GUI LG(SPACE)           &kp SPACE          &kp BSPC           &cc                         &pst           &kp DELETE         &entab           &gui_gspc_maclock
                                                                                             &macro_app_switch 2
@@ -275,9 +295,9 @@
         symbols_layer {
             bindings = <
   &kp EXCLAMATION  &kp AT_SIGN  &kp HASH      &kp DOLLAR      &kp PERCENT              &kp CARET      &kp AMPERSAND     &kp ASTERISK          &kp PLUS               &kp EQUAL
-  &kp GRAVE        &kp UNDER    &kp QUESTION  &kp LEFT_BRACE  &kp RIGHT_BRACE          &kp SLASH      &kp BACKSLASH     &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp MINUS
-  &trans           &trans       &trans        &kp COLON       &kp TILDE                &kp LESS_THAN  &kp GREATER_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp QUESTION
-  &trans           &trans       &trans        &trans          &trans                   &trans         &trans            &trans                &trans                 &kp SEMICOLON
+  &kp GRAVE        &kp UNDER    &kp QUESTION  &kp LEFT_BRACE  &kp RIGHT_BRACE          &kp QUESTION   &kp SEMI          &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp MINUS
+  &trans           &trans       &trans        &kp COLON       &kp TILDE                &kp LESS_THAN  &kp GREATER_THAN  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp SLASH
+  &trans           &trans       &trans        &trans          &trans                   &trans         &trans            &trans                &trans                 &kp BACKSLASH
                    &trans       &trans        &trans          &trans                   &trans         &trans            &trans                &trans
                                                                                &trans
             >;
