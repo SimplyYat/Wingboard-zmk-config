@@ -265,12 +265,12 @@
             //                                        '-------'
 
             bindings = <
-  &quote_esc  &kp COMMA                        &kp PERIOD         &kp P              &kp Y                       &kp F          &kp G              &kp C            &kp R              &kp L
-  &hlt 1 A    &hm LEFT_ALT O                   &hm LEFT_GUI E     &hm LEFT_SHIFT U   &kp I                       &kp D          &hm RIGHT_SHIFT H  &hm RIGHT_GUI T  &hm RIGHT_ALT N    &hlt 2 S
-  &shft       &kp Q                            &kp J              &kp K              &kp X                       &kp B          &kp M              &kp W            &kp V              &kp Z
-  &td_l3_l4   &mt LCTRL LC(LA(LS(LG(SPACE))))  &opt_close_window  &tab_l4_selall_l2  &asw                        &tick_asw_tab  &td_l3_l4          &kp RIGHT_ALT    &kp RCTRL          &shft
-              &mt LEFT_GUI LG(SPACE)           &kp SPACE          &kp BSPC           &ccg                        &pst           &kp DELETE         &entab           &gui_gspc_maclock
-                                                                                            &macro_app_switch 2
+  &quote_esc       &kp COMMA                        &kp PERIOD         &kp P              &kp Y                       &kp F          &kp G              &kp C            &kp R              &kp L
+  &hlt 1 A         &hm LEFT_ALT O                   &hm LEFT_GUI E     &hm LEFT_SHIFT U   &kp I                       &kp D          &hm RIGHT_SHIFT H  &hm RIGHT_GUI T  &hm RIGHT_ALT N    &hlt 2 S
+  &lt 3 SEMI       &kp Q                            &kp J              &kp K              &kp X                       &kp B          &kp M              &kp W            &kp V              &kp Z
+  &lt 4 LG(SPACE)  &mt LCTRL LC(LA(LS(LG(SPACE))))  &opt_close_window  &tab_l4_selall_l2  &asw                        &tick_asw_tab  &td_l3_l4          &kp RIGHT_ALT    &kp RCTRL          &shft
+                   &mt LEFT_GUI LG(SPACE)           &kp SPACE          &kp BSPC           &ccg                        &pst           &kp DELETE         &entab           &gui_gspc_maclock
+                                                                                                 &macro_app_switch 2
             >;
 
             sensor-bindings = <&screnc MOVE_Y(-100) MOVE_Y(100)>;
