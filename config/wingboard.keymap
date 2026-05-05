@@ -293,12 +293,12 @@
 
         actions_layer {
             bindings = <
-  &trans  &trans     &trans  &trans  &trans                      &trans     &kp HOME  &kp UP_ARROW  &kp END    &kp DEL
-  &trans  &kp PSCRN  &trans  &trans  &kp K_CONTEXT_MENU          &kp PG_UP  &kp LEFT  &kp DOWN      &kp RIGHT  &trans
-  &trans  &trans     &trans  &trans  &trans                      &kp PG_DN  &trans    &trans        &trans     &trans
-  &trans  &trans     &trans  &trans  &trans                      &trans     &trans    &trans        &trans     &trans
-          &trans     &trans  &trans  &trans                      &trans     &trans    &trans        &trans
-                                                         &trans
+  &trans  &trans  &trans  &trans  &trans                      &kp PSCRN  &kp HOME  &kp UP_ARROW  &kp END    &kp DEL
+  &trans  &trans  &trans  &trans  &kp K_CONTEXT_MENU          &kp PG_UP  &kp LEFT  &kp DOWN      &kp RIGHT  &trans
+  &trans  &trans  &trans  &trans  &trans                      &kp PG_DN  &trans    &trans        &trans     &trans
+  &trans  &trans  &trans  &trans  &trans                      &trans     &trans    &trans        &trans     &trans
+          &trans  &trans  &trans  &trans                      &trans     &trans    &trans        &trans
+                                                      &trans
             >;
 
             sensor-bindings = <&inc_dec_kp TAB LS(TAB)>;
