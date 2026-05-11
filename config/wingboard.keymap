@@ -93,6 +93,18 @@
             key-positions = <26 27>;
             timeout-ms = <20>;
         };
+
+        combo_slash {
+            bindings = <&kp SLASH>;
+            key-positions = <15 16>;
+            timeout-ms = <20>;
+        };
+
+        combo_backslash {
+            bindings = <&kp BACKSLASH>;
+            key-positions = <6 5>;
+            timeout-ms = <20>;
+        };
     };
 
     sensors: sensors {
