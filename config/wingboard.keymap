@@ -105,6 +105,12 @@
             key-positions = <6 5>;
             timeout-ms = <20>;
         };
+
+        combo_homerow_shortcut {
+            bindings = <&kp LC(LA(LS(LG(SPACE))))>;
+            key-positions = <12 13 11>;
+            timeout-ms = <15>;
+        };
     };
 
     sensors: sensors {
