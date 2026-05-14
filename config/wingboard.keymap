@@ -281,7 +281,7 @@
   &hlt 1 A         &hm LEFT_ALT O                   &hm LEFT_GUI E     &hm LEFT_SHIFT U   &kp I                       &kp D          &hm RIGHT_SHIFT H  &hm RIGHT_GUI T  &hm RIGHT_ALT N    &hlt 2 S
   &lt 3 SEMI       &kp Q                            &kp J              &kp K              &kp X                       &kp B          &kp M              &kp W            &kp V              &kp Z
   &lt 4 LG(SPACE)  &mt LCTRL LC(LA(LS(LG(SPACE))))  &opt_close_window  &tab_l4_selall_l2  &asw                        &tick_asw_tab  &td_l3_l4          &kp RIGHT_ALT    &kp RCTRL          &shft
-                   &mt LEFT_GUI LG(SPACE)           &kp SPACE          &kp BSPC           &ccg                        &pst           &kp DELETE         &entab           &gui_gspc_maclock
+                   &mt LEFT_GUI LG(SPACE)           &kp SPACE          &kp BSPC           &ccg                        &pst           &kp DELETE         &kp ENTER        &gui_gspc_maclock
                                                                                                  &macro_app_switch 2
             >;
 
