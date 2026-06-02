@@ -291,6 +291,13 @@
             #binding-cells = <0>;
             bindings = <&kp LEFT_ALT>, <&kp LG(W)>;
         };
+
+        sel_all_save: sel_all_save {
+            compatible = "zmk,behavior-tap-dance";
+            label = "SEL_ALL_SAVE";
+            #binding-cells = <0>;
+            bindings = <&kp LG(A)>, <&kp LG(S)>;
+        };
     };
 
     keymap {
