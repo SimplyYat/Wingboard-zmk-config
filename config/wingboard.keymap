@@ -70,15 +70,9 @@
             timeout-ms = <30>;
         };
 
-        combo_semi {
-            bindings = <&kp SEMI>;
-            key-positions = <21 20>;
-            timeout-ms = <20>;
-        };
-
-        combo_question {
+        combo_question_right {
             bindings = <&kp QUESTION>;
-            key-positions = <23 22>;
+            key-positions = <5 6>;
             timeout-ms = <20>;
         };
 
@@ -102,7 +96,7 @@
 
         combo_backslash {
             bindings = <&kp BACKSLASH>;
-            key-positions = <6 5>;
+            key-positions = <17 16 15>;
             timeout-ms = <20>;
         };
 
@@ -139,6 +133,12 @@
         combo_paste {
             bindings = <&kp LG(V)>;
             key-positions = <21 22>;
+            timeout-ms = <20>;
+        };
+
+        combo_hyphen_right {
+            bindings = <&kp MINUS>;
+            key-positions = <18 19>;
             timeout-ms = <20>;
         };
     };
