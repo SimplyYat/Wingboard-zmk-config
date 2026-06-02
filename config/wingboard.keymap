@@ -78,7 +78,7 @@
 
         combo_underscore {
             bindings = <&kp UNDER>;
-            key-positions = <26 27>;
+            key-positions = <21 22>;
             timeout-ms = <20>;
         };
 
