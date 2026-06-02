@@ -327,11 +327,11 @@
 
         functions_layer {
             bindings = <
-  &trans     &kp F9                &kp F10                &kp F11   &kp F12           &kp ASTERISK  &kp N7   &kp N8     &kp N9          &kp PLUS
-  &trans     &kp F5                &kp F6                 &kp F7    &kp F8            &kp SLASH     &kp N4   &kp N5     &kp N6          &kp MINUS
-  &kp SEMI   &kp F1                &kp F2                 &kp F3    &kp F4            &kp CARET     &kp N1   &kp N2     &kp N3          &kp COLON
-  &kp EQUAL  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &l_sq_br  &r_sq_br          &kp COMMA     &kp DOT  &kp N0     &kp BACKSLASH   &kp SEMICOLON
-             &trans                &trans                 &trans    &trans            &trans        &trans   &kp EQUAL  &studio_unlock
+  &trans     &kp F9                &kp F10                &kp F11   &kp F12           &kp ASTERISK  &kp N7   &kp N8     &kp N9         &kp PLUS
+  &trans     &kp F5                &kp F6                 &kp F7    &kp F8            &kp SLASH     &kp N4   &kp N5     &kp N6         &kp MINUS
+  &kp SEMI   &kp F1                &kp F2                 &kp F3    &kp F4            &kp CARET     &kp N1   &kp N2     &kp N3         &kp COLON
+  &kp EQUAL  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &l_sq_br  &r_sq_br          &kp COMMA     &kp DOT  &kp N0     &kp BACKSLASH  &kp SEMICOLON
+             &trans                &trans                 &trans    &trans            &trans        &trans   &kp EQUAL  &kp N0
                                                                               &trans
             >;
 
