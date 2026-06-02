@@ -48,7 +48,7 @@
 
         combo_refresh {
             bindings = <&kp LG(R)>;
-            key-positions = <8 7>;
+            key-positions = <2 3 4>;
             timeout-ms = <20>;
         };
 
