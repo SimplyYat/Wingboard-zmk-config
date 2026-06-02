@@ -30,7 +30,7 @@
 
         combo_prntscr {
             bindings = <&kp LG(LS(N5))>;
-            key-positions = <3 2>;
+            key-positions = <3 2 1>;
             timeout-ms = <20>;
         };
 
@@ -94,8 +94,8 @@
             timeout-ms = <20>;
         };
 
-        combo_homerow_shortcut {
-            bindings = <&kp LC(LA(LS(LG(SPACE))))>;
+        combo_homerow_lock {
+            bindings = <&hr_lock>;
             key-positions = <12 13 11>;
             timeout-ms = <15>;
         };
@@ -121,6 +121,12 @@
         combo_hyphen_right {
             bindings = <&kp MINUS>;
             key-positions = <18 19>;
+            timeout-ms = <20>;
+        };
+
+        combo_selall_save {
+            bindings = <&sel_all_save>;
+            key-positions = <3 2>;
             timeout-ms = <20>;
         };
     };
@@ -202,13 +208,6 @@
             bindings = <&kp LEFT_SHIFT>, <&mt CAPSLOCK SEMI>;
         };
 
-        entab: enter_tab {
-            compatible = "zmk,behavior-tap-dance";
-            label = "ENTER_TAB";
-            #binding-cells = <0>;
-            bindings = <&kp ENTER>, <&kp TAB>;
-        };
-
         screnc: scroll_encoder {
             compatible = "zmk,behavior-sensor-rotate-var";
             label = "SCROLL_ENCODER";
@@ -286,6 +285,13 @@
             label = "COPY_CPSPL";
             #binding-cells = <0>;
             bindings = <&kp LG(C)>, <&kp LG(LS(C))>;
+        };
+
+        hr_lock: homerowapp_maclock {
+            compatible = "zmk,behavior-tap-dance";
+            label = "HOMEROWAPP_MACLOCK";
+            #binding-cells = <0>;
+            bindings = <&kp LG(SPACE)>, <&mt LC(LG(Q)) LS(LA(LC(LG(SPACE))))>;
         };
     };
 
