@@ -237,25 +237,11 @@
             bindings = <&kp RIGHT_BRACKET>, <&kp RIGHT_BRACE>;
         };
 
-        td_l3_l4: td_l3_semi_l4_col {
-            compatible = "zmk,behavior-tap-dance";
-            label = "TD_L3_SEMI_L4_COL";
-            #binding-cells = <0>;
-            bindings = <&lt 3 SEMI>, <&lt 4 COLON>;
-        };
-
         tab_l4_selall_l2: tab_l4_selall_l2 {
             compatible = "zmk,behavior-tap-dance";
             label = "TAB_L4_SELALL_L2";
             #binding-cells = <0>;
             bindings = <&lt 4 TAB>, <&lt 2 LG(A)>;
-        };
-
-        tick_asw_tab: backtick_app_switch_tab {
-            compatible = "zmk,behavior-tap-dance";
-            label = "BACKTICK_APP_SWITCH_TAB";
-            #binding-cells = <0>;
-            bindings = <&kp GRAVE>, <&kp LG(GRAVE)>, <&kp LG(TAB)>;
         };
 
         gui_gspc_maclock: gui_gspc_maclock {
