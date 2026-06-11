@@ -106,7 +106,7 @@
             timeout-ms = <30>;
         };
 
-        combo_copy_1p {
+        combo_copy_spl {
             bindings = <&cpspl>;
             key-positions = <22 23>;
             timeout-ms = <30>;
@@ -127,6 +127,12 @@
         combo_selall_save {
             bindings = <&sel_all_save>;
             key-positions = <3 2>;
+            timeout-ms = <20>;
+        };
+
+        combo_1p {
+            bindings = <&kp LG(LS(SPACE))>;
+            key-positions = <2 1>;
             timeout-ms = <20>;
         };
     };
