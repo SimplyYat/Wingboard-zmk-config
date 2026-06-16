@@ -129,55 +129,100 @@ static void draw_top(lv_obj_t *widget, const struct status_state *state) {
     rotate_canvas(canvas);
 }
 
+static const char *get_encoder_label(uint8_t layer_index) {
+    switch (layer_index) {
+    case 0:
+        return "SCROLL";
+    case 1:
+        return "PAN";
+    case 2:
+        return "TAB";
+    case 3:
+        return "UNDO";
+    case 4:
+        return "VOLUME";
+    default:
+        return "SCROLL";
+    }
+}
+
 static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 1);
 
-    lv_draw_rect_dsc_t rect_black_dsc;
-    init_rect_dsc(&rect_black_dsc, LVGL_BACKGROUND);
-    lv_draw_rect_dsc_t rect_white_dsc;
-    init_rect_dsc(&rect_white_dsc, LVGL_FOREGROUND);
+    lv_draw_rect_dsc_t rect_bg_dsc;
+    init_rect_dsc(&rect_bg_dsc, LVGL_BACKGROUND);
+    lv_draw_rect_dsc_t rect_fg_dsc;
+    init_rect_dsc(&rect_fg_dsc, LVGL_FOREGROUND);
+
+    lv_draw_line_dsc_t line_dsc;
+    init_line_dsc(&line_dsc, LVGL_FOREGROUND, 1);
+
     lv_draw_arc_dsc_t arc_dsc;
-    init_arc_dsc(&arc_dsc, LVGL_FOREGROUND, 2);
-    lv_draw_arc_dsc_t arc_dsc_filled;
-    init_arc_dsc(&arc_dsc_filled, LVGL_FOREGROUND, 9);
-    lv_draw_label_dsc_t label_dsc;
-    init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_18, LV_TEXT_ALIGN_CENTER);
-    lv_draw_label_dsc_t label_dsc_black;
-    init_label_dsc(&label_dsc_black, LVGL_BACKGROUND, &lv_font_montserrat_18, LV_TEXT_ALIGN_CENTER);
+    init_arc_dsc(&arc_dsc, LVGL_FOREGROUND, 1);
 
     // Fill background
     lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
 
-    // Draw circles
-    int circle_offsets[NICEVIEW_PROFILE_COUNT][2] = {
-        {13, 13}, {55, 13}, {34, 34}, {13, 55}, {55, 55},
-    };
-
+    // Draw 5 Bluetooth profile squares
+    const int x_pos = 54; // Canvas vertical coordinate (physical height from bottom)
     for (int i = 0; i < NICEVIEW_PROFILE_COUNT; i++) {
+        const int y_pos = 3 + i * 13; // Canvas horizontal coordinate (physical width from left)
         bool selected = i == state->active_profile_index;
+        bool connected = state->profiles_connected[i];
+        bool bonded = state->profiles_bonded[i];
 
-        if (state->profiles_connected[i]) {
-            canvas_draw_arc(canvas, circle_offsets[i][0], circle_offsets[i][1], 13, 0, 360,
-                            &arc_dsc);
-        } else if (state->profiles_bonded[i]) {
-            const int segments = 8;
-            const int gap = 20;
-            for (int j = 0; j < segments; ++j)
-                canvas_draw_arc(canvas, circle_offsets[i][0], circle_offsets[i][1], 13,
-                                360. / segments * j + gap / 2.0,
-                                360. / segments * (j + 1) - gap / 2.0, &arc_dsc);
+        if (selected && connected) {
+            // Solid filled square
+            canvas_draw_rect(canvas, y_pos, x_pos, 10, 10, &rect_fg_dsc);
+        } else if (connected || (selected && bonded)) {
+            // Solid 1px outline border
+            canvas_draw_rect(canvas, y_pos, x_pos, 10, 10, &rect_fg_dsc);
+            canvas_draw_rect(canvas, y_pos + 1, x_pos + 1, 8, 8, &rect_bg_dsc);
+        } else if (bonded) {
+            // Dotted 1px outline border
+            for (int k = 0; k < 10; k += 2) {
+                canvas_draw_rect(canvas, y_pos + k, x_pos, 1, 1, &rect_fg_dsc);
+                canvas_draw_rect(canvas, y_pos + k, x_pos + 9, 1, 1, &rect_fg_dsc);
+            }
+            for (int k = 2; k < 9; k += 2) {
+                canvas_draw_rect(canvas, y_pos, x_pos + k, 1, 1, &rect_fg_dsc);
+                canvas_draw_rect(canvas, y_pos + 9, x_pos + k, 1, 1, &rect_fg_dsc);
+            }
         }
 
+        // Draw profile digit inside the square
+        lv_draw_label_dsc_t label_dsc;
+        if (selected && connected) {
+            init_label_dsc(&label_dsc, LVGL_BACKGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_CENTER);
+        } else {
+            init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_CENTER);
+        }
+        char label_str[2] = { '1' + i, '\0' };
+        canvas_draw_text(canvas, y_pos, x_pos + 1, 10, &label_dsc, label_str);
+
+        // Draw active profile indicator below the square
         if (selected) {
-            canvas_draw_arc(canvas, circle_offsets[i][0], circle_offsets[i][1], 9, 0, 359,
-                            &arc_dsc_filled);
+            canvas_draw_rect(canvas, y_pos + 2, 48, 6, 2, &rect_fg_dsc);
         }
-
-        char label[2];
-        snprintf(label, sizeof(label), "%d", i + 1);
-        canvas_draw_text(canvas, circle_offsets[i][0] - 8, circle_offsets[i][1] - 10, 16,
-                         (selected ? &label_dsc_black : &label_dsc), label);
     }
+
+    // Draw horizontal divider line
+    lv_point_t divider_points[2] = {{0, 45}, {68, 45}};
+    canvas_draw_line(canvas, divider_points, 2, &line_dsc);
+
+    // Draw Encoder Knob Icon (center: x = 34, y = 28 in canvas coords)
+    // Outer circle
+    canvas_draw_arc(canvas, 34, 28, 9, 0, 360, &arc_dsc);
+    // Inner shaft circle
+    canvas_draw_arc(canvas, 34, 28, 2, 0, 360, &arc_dsc);
+    // Tick pointing up-right from center
+    lv_point_t tick_points[2] = {{34, 28}, {40, 34}};
+    canvas_draw_line(canvas, tick_points, 2, &line_dsc);
+
+    // Draw Encoder Assignment Label at the bottom
+    lv_draw_label_dsc_t enc_label_dsc;
+    init_label_dsc(&enc_label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_CENTER);
+    canvas_draw_text(canvas, 0, 2, 68, &enc_label_dsc, get_encoder_label(state->layer_index));
 
     // Rotate canvas
     rotate_canvas(canvas);
@@ -294,6 +339,7 @@ static void set_layer_status(struct zmk_widget_status *widget, struct layer_stat
     widget->state.layer_label = state.label;
 
     draw_bottom(widget->obj, &widget->state);
+    draw_middle(widget->obj, &widget->state);
 }
 
 static void layer_status_update_cb(struct layer_status_state state) {
