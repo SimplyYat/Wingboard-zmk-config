@@ -74,6 +74,17 @@ static void draw_modifier_box(lv_obj_t *canvas, lv_coord_t x, lv_coord_t y, lv_c
 static void draw_top(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 0);
 
+    lv_draw_rect_dsc_t rect_bg_dsc;
+    init_rect_dsc(&rect_bg_dsc, LVGL_BACKGROUND);
+    lv_draw_rect_dsc_t rect_fg_dsc;
+    init_rect_dsc(&rect_fg_dsc, LVGL_FOREGROUND);
+
+    lv_draw_line_dsc_t line_dsc;
+    init_line_dsc(&line_dsc, LVGL_FOREGROUND, 1);
+
+    lv_draw_arc_dsc_t arc_dsc;
+    init_arc_dsc(&arc_dsc, LVGL_FOREGROUND, 1);
+
     lv_draw_label_dsc_t label_dsc;
     init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_16, LV_TEXT_ALIGN_RIGHT);
 
@@ -85,7 +96,6 @@ static void draw_top(lv_obj_t *widget, const struct status_state *state) {
 
     // Draw output status
     char output_text[10] = {};
-
     switch (state->selected_endpoint.transport) {
     case ZMK_TRANSPORT_USB:
         strcat(output_text, LV_SYMBOL_USB);
@@ -102,28 +112,68 @@ static void draw_top(lv_obj_t *widget, const struct status_state *state) {
         }
         break;
     }
-
     canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, output_text);
 
-    // Draw Modifiers Grid
-    bool shift_pressed = (state->modifiers & (MOD_LSFT | MOD_RSFT)) != 0;
-    bool ctrl_pressed = (state->modifiers & (MOD_LCTL | MOD_RCTL)) != 0;
-    bool opt_pressed = (state->modifiers & (MOD_LALT | MOD_RALT)) != 0;
-    bool gui_pressed = (state->modifiers & (MOD_LGUI | MOD_RGUI)) != 0;
-    bool caps_pressed = state->caps_lock || state->caps_word;
+    // Draw 5 Bluetooth profile squares (row x = 16 to 26)
+    const int x_pos = 16;
+    for (int i = 0; i < NICEVIEW_PROFILE_COUNT; i++) {
+        const int y_pos = 3 + i * 13;
+        bool selected = i == state->active_profile_index;
+        bool connected = state->profiles_connected[i];
+        bool bonded = state->profiles_bonded[i];
 
-    draw_modifier_box(canvas, 0, 21, 32, 13, "SHFT", shift_pressed);
-    draw_modifier_box(canvas, 36, 21, 32, 13, "CTRL", ctrl_pressed);
-    draw_modifier_box(canvas, 0, 36, 32, 13, "OPT", opt_pressed);
-    draw_modifier_box(canvas, 36, 36, 32, 13, "GUI", gui_pressed);
+        if (selected && connected) {
+            // Solid filled square
+            canvas_draw_rect(canvas, y_pos, x_pos, 10, 10, &rect_fg_dsc);
+        } else if (connected || (selected && bonded)) {
+            // Solid 1px outline border
+            canvas_draw_rect(canvas, y_pos, x_pos, 10, 10, &rect_fg_dsc);
+            canvas_draw_rect(canvas, y_pos + 1, x_pos + 1, 8, 8, &rect_bg_dsc);
+        } else if (bonded) {
+            // Dotted 1px outline border
+            for (int k = 0; k < 10; k += 2) {
+                canvas_draw_rect(canvas, y_pos + k, x_pos, 1, 1, &rect_fg_dsc);
+                canvas_draw_rect(canvas, y_pos + k, x_pos + 9, 1, 1, &rect_fg_dsc);
+            }
+            for (int k = 2; k < 9; k += 2) {
+                canvas_draw_rect(canvas, y_pos, x_pos + k, 1, 1, &rect_fg_dsc);
+                canvas_draw_rect(canvas, y_pos + 9, x_pos + k, 1, 1, &rect_fg_dsc);
+            }
+        }
 
-    const char *caps_text = "CAPS";
-    if (state->caps_word) {
-        caps_text = "CAPS WD";
-    } else if (state->caps_lock) {
-        caps_text = "CAPS LK";
+        // Draw profile digit inside the square
+        lv_draw_label_dsc_t digit_label_dsc;
+        if (selected && connected) {
+            init_label_dsc(&digit_label_dsc, LVGL_BACKGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_CENTER);
+        } else {
+            init_label_dsc(&digit_label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_CENTER);
+        }
+        char label_str[2] = { '1' + i, '\0' };
+        canvas_draw_text(canvas, y_pos, x_pos + 1, 10, &digit_label_dsc, label_str);
+
+        // Draw active profile indicator below the square (row x = 28)
+        if (selected) {
+            canvas_draw_rect(canvas, y_pos + 2, 28, 6, 2, &rect_fg_dsc);
+        }
     }
-    draw_modifier_box(canvas, 0, 51, 68, 13, caps_text, caps_pressed);
+
+    // Draw horizontal divider line (row x = 31)
+    lv_point_t divider_points[2] = {{0, 31}, {68, 31}};
+    canvas_draw_line(canvas, divider_points, 2, &line_dsc);
+
+    // Draw Encoder Knob Icon (center: x = 34, y = 44 in canvas coords)
+    // Outer circle
+    canvas_draw_arc(canvas, 34, 44, 9, 0, 360, &arc_dsc);
+    // Inner shaft circle
+    canvas_draw_arc(canvas, 34, 44, 2, 0, 360, &arc_dsc);
+    // Tick pointing up-right from center
+    lv_point_t tick_points[2] = {{34, 44}, {40, 50}};
+    canvas_draw_line(canvas, tick_points, 2, &line_dsc);
+
+    // Draw Encoder Assignment Label at the bottom (row x = 57)
+    lv_draw_label_dsc_t enc_label_dsc;
+    init_label_dsc(&enc_label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_CENTER);
+    canvas_draw_text(canvas, 0, 57, 68, &enc_label_dsc, get_encoder_label(state->layer_index));
 
     // Rotate canvas
     rotate_canvas(canvas);
@@ -149,80 +199,37 @@ static const char *get_encoder_label(uint8_t layer_index) {
 static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 1);
 
-    lv_draw_rect_dsc_t rect_bg_dsc;
-    init_rect_dsc(&rect_bg_dsc, LVGL_BACKGROUND);
-    lv_draw_rect_dsc_t rect_fg_dsc;
-    init_rect_dsc(&rect_fg_dsc, LVGL_FOREGROUND);
-
-    lv_draw_line_dsc_t line_dsc;
-    init_line_dsc(&line_dsc, LVGL_FOREGROUND, 1);
-
-    lv_draw_arc_dsc_t arc_dsc;
-    init_arc_dsc(&arc_dsc, LVGL_FOREGROUND, 1);
+    lv_draw_label_dsc_t label_dsc;
+    init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_CENTER);
 
     // Fill background
     lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
 
-    // Draw 5 Bluetooth profile squares
-    const int x_pos = 54; // Canvas vertical coordinate (physical height from bottom)
-    for (int i = 0; i < NICEVIEW_PROFILE_COUNT; i++) {
-        const int y_pos = 3 + i * 13; // Canvas horizontal coordinate (physical width from left)
-        bool selected = i == state->active_profile_index;
-        bool connected = state->profiles_connected[i];
-        bool bonded = state->profiles_bonded[i];
+    // Draw "Layer:" label
+    canvas_draw_text(canvas, 0, 6, 68, &label_dsc, "Layer:");
 
-        if (selected && connected) {
-            // Solid filled square
-            canvas_draw_rect(canvas, y_pos, x_pos, 10, 10, &rect_fg_dsc);
-        } else if (connected || (selected && bonded)) {
-            // Solid 1px outline border
-            canvas_draw_rect(canvas, y_pos, x_pos, 10, 10, &rect_fg_dsc);
-            canvas_draw_rect(canvas, y_pos + 1, x_pos + 1, 8, 8, &rect_bg_dsc);
-        } else if (bonded) {
-            // Dotted 1px outline border
-            for (int k = 0; k < 10; k += 2) {
-                canvas_draw_rect(canvas, y_pos + k, x_pos, 1, 1, &rect_fg_dsc);
-                canvas_draw_rect(canvas, y_pos + k, x_pos + 9, 1, 1, &rect_fg_dsc);
-            }
-            for (int k = 2; k < 9; k += 2) {
-                canvas_draw_rect(canvas, y_pos, x_pos + k, 1, 1, &rect_fg_dsc);
-                canvas_draw_rect(canvas, y_pos + 9, x_pos + k, 1, 1, &rect_fg_dsc);
-            }
-        }
+    // Draw Layer Name and Index under it
+    lv_draw_label_dsc_t name_label_dsc;
+    init_label_dsc(&name_label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_14, LV_TEXT_ALIGN_CENTER);
 
-        // Draw profile digit inside the square
-        lv_draw_label_dsc_t label_dsc;
-        if (selected && connected) {
-            init_label_dsc(&label_dsc, LVGL_BACKGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_CENTER);
-        } else {
-            init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_CENTER);
-        }
-        char label_str[2] = { '1' + i, '\0' };
-        canvas_draw_text(canvas, y_pos, x_pos + 1, 10, &label_dsc, label_str);
-
-        // Draw active profile indicator below the square
-        if (selected) {
-            canvas_draw_rect(canvas, y_pos + 2, 48, 6, 2, &rect_fg_dsc);
-        }
+    char layer_text[20] = {};
+    if (state->layer_label == NULL || strlen(state->layer_label) == 0) {
+        snprintf(layer_text, sizeof(layer_text), "LAYER %d", state->layer_index);
+    } else {
+        snprintf(layer_text, sizeof(layer_text), "%s (%d)", state->layer_label, state->layer_index);
     }
+    canvas_draw_text(canvas, 0, 18, 68, &name_label_dsc, layer_text);
 
-    // Draw horizontal divider line
-    lv_point_t divider_points[2] = {{0, 45}, {68, 45}};
-    canvas_draw_line(canvas, divider_points, 2, &line_dsc);
+    // Draw Modifiers Grid (SHFT, CTRL, OPT, GUI)
+    bool shift_pressed = (state->modifiers & (MOD_LSFT | MOD_RSFT)) != 0;
+    bool ctrl_pressed = (state->modifiers & (MOD_LCTL | MOD_RCTL)) != 0;
+    bool opt_pressed = (state->modifiers & (MOD_LALT | MOD_RALT)) != 0;
+    bool gui_pressed = (state->modifiers & (MOD_LGUI | MOD_RGUI)) != 0;
 
-    // Draw Encoder Knob Icon (center: x = 34, y = 28 in canvas coords)
-    // Outer circle
-    canvas_draw_arc(canvas, 34, 28, 9, 0, 360, &arc_dsc);
-    // Inner shaft circle
-    canvas_draw_arc(canvas, 34, 28, 2, 0, 360, &arc_dsc);
-    // Tick pointing up-right from center
-    lv_point_t tick_points[2] = {{34, 28}, {40, 34}};
-    canvas_draw_line(canvas, tick_points, 2, &line_dsc);
-
-    // Draw Encoder Assignment Label at the bottom
-    lv_draw_label_dsc_t enc_label_dsc;
-    init_label_dsc(&enc_label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_CENTER);
-    canvas_draw_text(canvas, 0, 2, 68, &enc_label_dsc, get_encoder_label(state->layer_index));
+    draw_modifier_box(canvas, 0, 36, 32, 13, "SHFT", shift_pressed);
+    draw_modifier_box(canvas, 36, 36, 32, 13, "CTRL", ctrl_pressed);
+    draw_modifier_box(canvas, 0, 52, 32, 13, "OPT", opt_pressed);
+    draw_modifier_box(canvas, 36, 52, 32, 13, "GUI", gui_pressed);
 
     // Rotate canvas
     rotate_canvas(canvas);
@@ -231,24 +238,19 @@ static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
 static void draw_bottom(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 2);
 
-    lv_draw_rect_dsc_t rect_black_dsc;
-    init_rect_dsc(&rect_black_dsc, LVGL_BACKGROUND);
-    lv_draw_label_dsc_t label_dsc;
-    init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_14, LV_TEXT_ALIGN_CENTER);
-
     // Fill background
     lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
 
-    // Draw layer
-    if (state->layer_label == NULL || strlen(state->layer_label) == 0) {
-        char text[10] = {};
-
-        sprintf(text, "LAYER %i", state->layer_index);
-
-        canvas_draw_text(canvas, 0, 5, 68, &label_dsc, text);
-    } else {
-        canvas_draw_text(canvas, 0, 5, 68, &label_dsc, state->layer_label);
+    // Draw CAPS Lock / CAPS Word indicator
+    bool caps_pressed = state->caps_lock || state->caps_word;
+    const char *caps_text = "CAPS";
+    if (state->caps_word) {
+        caps_text = "CAPS WD";
+    } else if (state->caps_lock) {
+        caps_text = "CAPS LK";
     }
+
+    draw_modifier_box(canvas, 0, 48, 68, 13, caps_text, caps_pressed);
 
     // Rotate canvas
     rotate_canvas(canvas);
@@ -301,7 +303,6 @@ static void set_output_status(struct zmk_widget_status *widget,
     }
 
     draw_top(widget->obj, &widget->state);
-    draw_middle(widget->obj, &widget->state);
 }
 
 static void output_status_update_cb(struct output_status_state state) {
@@ -338,7 +339,7 @@ static void set_layer_status(struct zmk_widget_status *widget, struct layer_stat
     widget->state.layer_index = state.index;
     widget->state.layer_label = state.label;
 
-    draw_bottom(widget->obj, &widget->state);
+    draw_top(widget->obj, &widget->state);
     draw_middle(widget->obj, &widget->state);
 }
 
@@ -367,7 +368,8 @@ static void set_modifiers_status(struct zmk_widget_status *widget, struct modifi
     widget->state.modifiers = state.modifiers;
     widget->state.caps_word = state.caps_word;
 
-    draw_top(widget->obj, &widget->state);
+    draw_middle(widget->obj, &widget->state);
+    draw_bottom(widget->obj, &widget->state);
 }
 
 static void modifiers_status_update_cb(struct modifiers_status_state state) {
@@ -411,7 +413,7 @@ struct hid_indicators_status_state {
 static void set_hid_indicators_status(struct zmk_widget_status *widget, struct hid_indicators_status_state state) {
     widget->state.caps_lock = (state.indicators & 0x02) != 0;
 
-    draw_top(widget->obj, &widget->state);
+    draw_bottom(widget->obj, &widget->state);
 }
 
 static void hid_indicators_status_update_cb(struct hid_indicators_status_state state) {
