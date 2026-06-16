@@ -70,6 +70,22 @@ static void draw_modifier_box(lv_obj_t *canvas, lv_coord_t x, lv_coord_t y, lv_c
     // Centered label text vertically
     canvas_draw_text(canvas, x, y + 2, w, &label_dsc, text);
 }
+static const char *get_encoder_label(uint8_t layer_index) {
+    switch (layer_index) {
+    case 0:
+        return "SCROLL";
+    case 1:
+        return "PAN";
+    case 2:
+        return "TAB";
+    case 3:
+        return "UNDO";
+    case 4:
+        return "VOLUME";
+    default:
+        return "SCROLL";
+    }
+}
 
 static void draw_top(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 0);
@@ -178,24 +194,6 @@ static void draw_top(lv_obj_t *widget, const struct status_state *state) {
     // Rotate canvas
     rotate_canvas(canvas);
 }
-
-static const char *get_encoder_label(uint8_t layer_index) {
-    switch (layer_index) {
-    case 0:
-        return "SCROLL";
-    case 1:
-        return "PAN";
-    case 2:
-        return "TAB";
-    case 3:
-        return "UNDO";
-    case 4:
-        return "VOLUME";
-    default:
-        return "SCROLL";
-    }
-}
-
 static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 1);
 
