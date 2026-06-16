@@ -200,21 +200,28 @@ static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
     lv_draw_label_dsc_t label_dsc;
     init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_CENTER);
 
+    lv_draw_line_dsc_t line_dsc;
+    init_line_dsc(&line_dsc, LVGL_FOREGROUND, 1);
+
     // Fill background
     lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
+
+    // Draw horizontal divider line under the encoder text (row x = 0)
+    lv_point_t divider_points2[2] = {{0, 0}, {68, 0}};
+    canvas_draw_line(canvas, divider_points2, 2, &line_dsc);
 
     // Draw "Layer:" label
     canvas_draw_text(canvas, 0, 6, 68, &label_dsc, "Layer:");
 
-    // Draw Layer Name and Index under it
+    // Draw Layer Name and Index under it (formatted as "index. name")
     lv_draw_label_dsc_t name_label_dsc;
     init_label_dsc(&name_label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_14, LV_TEXT_ALIGN_CENTER);
 
     char layer_text[20] = {};
     if (state->layer_label == NULL || strlen(state->layer_label) == 0) {
-        snprintf(layer_text, sizeof(layer_text), "LAYER %d", state->layer_index);
+        snprintf(layer_text, sizeof(layer_text), "%d. L%d", state->layer_index, state->layer_index);
     } else {
-        snprintf(layer_text, sizeof(layer_text), "%s (%d)", state->layer_label, state->layer_index);
+        snprintf(layer_text, sizeof(layer_text), "%d. %.7s", state->layer_index, state->layer_label);
     }
     canvas_draw_text(canvas, 0, 18, 68, &name_label_dsc, layer_text);
 
@@ -239,7 +246,7 @@ static void draw_bottom(lv_obj_t *widget, const struct status_state *state) {
     // Fill background
     lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
 
-    // Draw CAPS Lock / CAPS Word indicator
+    // Draw CAPS Lock / CAPS Word indicator (shifted to visible range row x = 45 to 63)
     bool caps_pressed = state->caps_lock || state->caps_word;
     const char *caps_text = "CAPS";
     if (state->caps_word) {
@@ -248,7 +255,7 @@ static void draw_bottom(lv_obj_t *widget, const struct status_state *state) {
         caps_text = "CAPS LK";
     }
 
-    draw_modifier_box(canvas, 0, 48, 68, 13, caps_text, caps_pressed);
+    draw_modifier_box(canvas, 45, 0, 18, 68, caps_text, caps_pressed);
 
     // Rotate canvas
     rotate_canvas(canvas);
