@@ -208,17 +208,17 @@ static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
     lv_point_t divider_points2[2] = {{0, 0}, {68, 0}};
     canvas_draw_line(canvas, divider_points2, 2, &line_dsc);
 
-    // Draw Layer Name and Index (formatted as "index. name" using montserrat_10)
+    // Draw Layer Name and Index (formatted as "index. name" using montserrat_12)
     lv_draw_label_dsc_t name_label_dsc;
-    init_label_dsc(&name_label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_10, LV_TEXT_ALIGN_CENTER);
+    init_label_dsc(&name_label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_12, LV_TEXT_ALIGN_CENTER);
 
     char layer_text[20] = {};
     if (state->layer_label == NULL || strlen(state->layer_label) == 0) {
         snprintf(layer_text, sizeof(layer_text), "%d. L%d", state->layer_index, state->layer_index);
     } else {
-        snprintf(layer_text, sizeof(layer_text), "%d. %.8s", state->layer_index, state->layer_label);
+        snprintf(layer_text, sizeof(layer_text), "%d. %.7s", state->layer_index, state->layer_label);
     }
-    canvas_draw_text(canvas, 0, 4, 68, &name_label_dsc, layer_text);
+    canvas_draw_text(canvas, 0, 6, 68, &name_label_dsc, layer_text);
 
     // Draw Modifiers Grid (SHFT, CTRL, OPT, GUI)
     bool shift_pressed = (state->modifiers & (MOD_LSFT | MOD_RSFT)) != 0;
@@ -250,7 +250,7 @@ static void draw_bottom(lv_obj_t *widget, const struct status_state *state) {
         caps_text = "CAPS LK";
     }
 
-    draw_modifier_box(canvas, 0, 45, 68, 18, caps_text, caps_pressed);
+    draw_modifier_box(canvas, 0, 5, 68, 18, caps_text, caps_pressed);
 
     // Rotate canvas
     rotate_canvas(canvas);
