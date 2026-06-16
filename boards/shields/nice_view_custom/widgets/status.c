@@ -208,28 +208,26 @@ static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
     lv_point_t divider_points2[2] = {{0, 0}, {68, 0}};
     canvas_draw_line(canvas, divider_points2, 2, &line_dsc);
 
-    // Draw Layer Name and Index (formatted as "index. name" using montserrat_12)
-    lv_draw_label_dsc_t name_label_dsc;
-    init_label_dsc(&name_label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_12, LV_TEXT_ALIGN_CENTER);
-
-    char layer_text[20] = {};
-    if (state->layer_label == NULL || strlen(state->layer_label) == 0) {
-        snprintf(layer_text, sizeof(layer_text), "%d. L%d", state->layer_index, state->layer_index);
-    } else {
-        snprintf(layer_text, sizeof(layer_text), "%d. %.7s", state->layer_index, state->layer_label);
-    }
-    canvas_draw_text(canvas, 0, 50, 68, &name_label_dsc, layer_text);
-
     // Draw Modifiers Grid (SHFT, CTRL, OPT, GUI)
     bool shift_pressed = (state->modifiers & (MOD_LSFT | MOD_RSFT)) != 0;
     bool ctrl_pressed = (state->modifiers & (MOD_LCTL | MOD_RCTL)) != 0;
     bool opt_pressed = (state->modifiers & (MOD_LALT | MOD_RALT)) != 0;
     bool gui_pressed = (state->modifiers & (MOD_LGUI | MOD_RGUI)) != 0;
 
-    draw_modifier_box(canvas, 0, 12, 32, 13, "SHFT", shift_pressed);
-    draw_modifier_box(canvas, 36, 12, 32, 13, "CTRL", ctrl_pressed);
-    draw_modifier_box(canvas, 0, 31, 32, 13, "OPT", opt_pressed);
-    draw_modifier_box(canvas, 36, 31, 32, 13, "GUI", gui_pressed);
+    draw_modifier_box(canvas, 0, 4, 32, 13, "SHFT", shift_pressed);
+    draw_modifier_box(canvas, 36, 4, 32, 13, "CTRL", ctrl_pressed);
+    draw_modifier_box(canvas, 0, 20, 32, 13, "OPT", opt_pressed);
+    draw_modifier_box(canvas, 36, 20, 32, 13, "GUI", gui_pressed);
+
+    // Draw CAPS Lock / CAPS Word indicator (Row 3 in middle canvas)
+    bool caps_pressed = state->caps_lock || state->caps_word;
+    const char *caps_text = "CAPS";
+    if (state->caps_word) {
+        caps_text = "CAPS WD";
+    } else if (state->caps_lock) {
+        caps_text = "CAPS LK";
+    }
+    draw_modifier_box(canvas, 0, 36, 68, 18, caps_text, caps_pressed);
 
     // Rotate canvas
     rotate_canvas(canvas);
@@ -241,16 +239,17 @@ static void draw_bottom(lv_obj_t *widget, const struct status_state *state) {
     // Fill background
     lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
 
-    // Draw CAPS Lock / CAPS Word indicator
-    bool caps_pressed = state->caps_lock || state->caps_word;
-    const char *caps_text = "CAPS";
-    if (state->caps_word) {
-        caps_text = "CAPS WD";
-    } else if (state->caps_lock) {
-        caps_text = "CAPS LK";
-    }
+    // Draw Layer Name and Index (formatted as "index. name" using montserrat_12)
+    lv_draw_label_dsc_t name_label_dsc;
+    init_label_dsc(&name_label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_12, LV_TEXT_ALIGN_CENTER);
 
-    draw_modifier_box(canvas, 0, 0, 68, 18, caps_text, caps_pressed);
+    char layer_text[20] = {};
+    if (state->layer_label == NULL || strlen(state->layer_label) == 0) {
+        snprintf(layer_text, sizeof(layer_text), "%d. L%d", state->layer_index, state->layer_index);
+    } else {
+        snprintf(layer_text, sizeof(layer_text), "%d. %.7s", state->layer_index, state->layer_label);
+    }
+    canvas_draw_text(canvas, 0, 6, 68, &name_label_dsc, layer_text);
 
     // Rotate canvas
     rotate_canvas(canvas);
@@ -340,7 +339,7 @@ static void set_layer_status(struct zmk_widget_status *widget, struct layer_stat
     widget->state.layer_label = state.label;
 
     draw_top(widget->obj, &widget->state);
-    draw_middle(widget->obj, &widget->state);
+    draw_bottom(widget->obj, &widget->state);
 }
 
 static void layer_status_update_cb(struct layer_status_state state) {
@@ -361,15 +360,12 @@ ZMK_SUBSCRIPTION(widget_layer_status, zmk_layer_state_changed);
 
 struct modifiers_status_state {
     uint8_t modifiers;
-    bool caps_word;
 };
 
 static void set_modifiers_status(struct zmk_widget_status *widget, struct modifiers_status_state state) {
     widget->state.modifiers = state.modifiers;
-    widget->state.caps_word = state.caps_word;
 
     draw_middle(widget->obj, &widget->state);
-    draw_bottom(widget->obj, &widget->state);
 }
 
 static void modifiers_status_update_cb(struct modifiers_status_state state) {
@@ -404,7 +400,7 @@ static void caps_word_poll_handler(struct k_work *work) {
         struct zmk_widget_status *widget;
         SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) {
             widget->state.caps_word = active;
-            draw_bottom(widget->obj, &widget->state);
+            draw_middle(widget->obj, &widget->state);
         }
     }
     k_work_reschedule(k_work_delayable_from_work(work), K_MSEC(50));
@@ -413,7 +409,6 @@ static void caps_word_poll_handler(struct k_work *work) {
 static struct modifiers_status_state modifiers_status_get_state(const zmk_event_t *eh) {
     return (struct modifiers_status_state){
         .modifiers = zmk_hid_get_explicit_mods(),
-        .caps_word = is_caps_word_active(),
     };
 }
 
@@ -429,7 +424,7 @@ struct hid_indicators_status_state {
 static void set_hid_indicators_status(struct zmk_widget_status *widget, struct hid_indicators_status_state state) {
     widget->state.caps_lock = (state.indicators & 0x02) != 0;
 
-    draw_bottom(widget->obj, &widget->state);
+    draw_middle(widget->obj, &widget->state);
 }
 
 static void hid_indicators_status_update_cb(struct hid_indicators_status_state state) {
