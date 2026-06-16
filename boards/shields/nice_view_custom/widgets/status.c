@@ -30,6 +30,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/events/hid_indicators_changed.h>
 #include <zmk/events/keycode_state_changed.h>
 #include <zmk/hid.h>
+#include <zmk/hid_indicators.h>
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
@@ -207,9 +208,9 @@ static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
     lv_point_t divider_points2[2] = {{0, 0}, {68, 0}};
     canvas_draw_line(canvas, divider_points2, 2, &line_dsc);
 
-    // Draw Layer Name and Index (formatted as "index. name" using unscii_8)
+    // Draw Layer Name and Index (formatted as "index. name" using montserrat_10)
     lv_draw_label_dsc_t name_label_dsc;
-    init_label_dsc(&name_label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_CENTER);
+    init_label_dsc(&name_label_dsc, LVGL_FOREGROUND, &lv_font_montserrat_10, LV_TEXT_ALIGN_CENTER);
 
     char layer_text[20] = {};
     if (state->layer_label == NULL || strlen(state->layer_label) == 0) {
@@ -217,7 +218,7 @@ static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
     } else {
         snprintf(layer_text, sizeof(layer_text), "%d. %.8s", state->layer_index, state->layer_label);
     }
-    canvas_draw_text(canvas, 0, 14, 68, &name_label_dsc, layer_text);
+    canvas_draw_text(canvas, 0, 4, 68, &name_label_dsc, layer_text);
 
     // Draw Modifiers Grid (SHFT, CTRL, OPT, GUI)
     bool shift_pressed = (state->modifiers & (MOD_LSFT | MOD_RSFT)) != 0;
@@ -240,7 +241,7 @@ static void draw_bottom(lv_obj_t *widget, const struct status_state *state) {
     // Fill background
     lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
 
-    // Draw CAPS Lock / CAPS Word indicator (shifted to visible range row x = 45 to 63)
+    // Draw CAPS Lock / CAPS Word indicator
     bool caps_pressed = state->caps_lock || state->caps_word;
     const char *caps_text = "CAPS";
     if (state->caps_word) {
@@ -423,7 +424,7 @@ static void hid_indicators_status_update_cb(struct hid_indicators_status_state s
 static struct hid_indicators_status_state hid_indicators_status_get_state(const zmk_event_t *eh) {
     const struct zmk_hid_indicators_changed *ev = as_zmk_hid_indicators_changed(eh);
     return (struct hid_indicators_status_state){
-        .indicators = ev != NULL ? ev->indicators : 0,
+        .indicators = ev != NULL ? ev->indicators : zmk_hid_indicators_get_current_profile(),
     };
 }
 
