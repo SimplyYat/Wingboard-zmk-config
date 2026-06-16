@@ -218,7 +218,7 @@ static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
     } else {
         snprintf(layer_text, sizeof(layer_text), "%d. %.7s", state->layer_index, state->layer_label);
     }
-    canvas_draw_text(canvas, 0, 6, 68, &name_label_dsc, layer_text);
+    canvas_draw_text(canvas, 0, 50, 68, &name_label_dsc, layer_text);
 
     // Draw Modifiers Grid (SHFT, CTRL, OPT, GUI)
     bool shift_pressed = (state->modifiers & (MOD_LSFT | MOD_RSFT)) != 0;
@@ -226,10 +226,10 @@ static void draw_middle(lv_obj_t *widget, const struct status_state *state) {
     bool opt_pressed = (state->modifiers & (MOD_LALT | MOD_RALT)) != 0;
     bool gui_pressed = (state->modifiers & (MOD_LGUI | MOD_RGUI)) != 0;
 
-    draw_modifier_box(canvas, 0, 36, 32, 13, "SHFT", shift_pressed);
-    draw_modifier_box(canvas, 36, 36, 32, 13, "CTRL", ctrl_pressed);
-    draw_modifier_box(canvas, 0, 52, 32, 13, "OPT", opt_pressed);
-    draw_modifier_box(canvas, 36, 52, 32, 13, "GUI", gui_pressed);
+    draw_modifier_box(canvas, 0, 12, 32, 13, "SHFT", shift_pressed);
+    draw_modifier_box(canvas, 36, 12, 32, 13, "CTRL", ctrl_pressed);
+    draw_modifier_box(canvas, 0, 31, 32, 13, "OPT", opt_pressed);
+    draw_modifier_box(canvas, 36, 31, 32, 13, "GUI", gui_pressed);
 
     // Rotate canvas
     rotate_canvas(canvas);
@@ -250,7 +250,7 @@ static void draw_bottom(lv_obj_t *widget, const struct status_state *state) {
         caps_text = "CAPS LK";
     }
 
-    draw_modifier_box(canvas, 0, 5, 68, 18, caps_text, caps_pressed);
+    draw_modifier_box(canvas, 0, 0, 68, 18, caps_text, caps_pressed);
 
     // Rotate canvas
     rotate_canvas(canvas);
@@ -394,6 +394,22 @@ static bool is_caps_word_active() {
     return false;
 }
 
+static struct k_work_delayable caps_word_poll_work;
+static bool last_caps_word_active = false;
+
+static void caps_word_poll_handler(struct k_work *work) {
+    bool active = is_caps_word_active();
+    if (active != last_caps_word_active) {
+        last_caps_word_active = active;
+        struct zmk_widget_status *widget;
+        SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) {
+            widget->state.caps_word = active;
+            draw_bottom(widget->obj, &widget->state);
+        }
+    }
+    k_work_reschedule(k_work_delayable_from_work(work), K_MSEC(50));
+}
+
 static struct modifiers_status_state modifiers_status_get_state(const zmk_event_t *eh) {
     return (struct modifiers_status_state){
         .modifiers = zmk_hid_get_explicit_mods(),
@@ -452,6 +468,13 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     widget_layer_status_init();
     widget_modifiers_status_init();
     widget_hid_indicators_status_init();
+
+    static bool poll_work_initialized = false;
+    if (!poll_work_initialized) {
+        k_work_init_delayable(&caps_word_poll_work, caps_word_poll_handler);
+        k_work_reschedule(&caps_word_poll_work, K_MSEC(50));
+        poll_work_initialized = true;
+    }
 
     return 0;
 }
