@@ -360,10 +360,12 @@ ZMK_SUBSCRIPTION(widget_layer_status, zmk_layer_state_changed);
 
 struct modifiers_status_state {
     uint8_t modifiers;
+    bool caps_word;
 };
 
 static void set_modifiers_status(struct zmk_widget_status *widget, struct modifiers_status_state state) {
     widget->state.modifiers = state.modifiers;
+    widget->state.caps_word = state.caps_word;
 
     draw_middle(widget->obj, &widget->state);
 }
@@ -390,25 +392,10 @@ static bool is_caps_word_active() {
     return false;
 }
 
-static struct k_work_delayable caps_word_poll_work;
-static bool last_caps_word_active = false;
-
-static void caps_word_poll_handler(struct k_work *work) {
-    bool active = is_caps_word_active();
-    if (active != last_caps_word_active) {
-        last_caps_word_active = active;
-        struct zmk_widget_status *widget;
-        SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) {
-            widget->state.caps_word = active;
-            draw_middle(widget->obj, &widget->state);
-        }
-    }
-    k_work_reschedule(k_work_delayable_from_work(work), K_MSEC(50));
-}
-
 static struct modifiers_status_state modifiers_status_get_state(const zmk_event_t *eh) {
     return (struct modifiers_status_state){
         .modifiers = zmk_hid_get_explicit_mods(),
+        .caps_word = is_caps_word_active(),
     };
 }
 
@@ -464,12 +451,7 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     widget_modifiers_status_init();
     widget_hid_indicators_status_init();
 
-    static bool poll_work_initialized = false;
-    if (!poll_work_initialized) {
-        k_work_init_delayable(&caps_word_poll_work, caps_word_poll_handler);
-        k_work_reschedule(&caps_word_poll_work, K_MSEC(50));
-        poll_work_initialized = true;
-    }
+
 
     return 0;
 }
